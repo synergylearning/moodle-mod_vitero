@@ -19,9 +19,6 @@ The module will also update or delete the Vitero session details if done so in M
 3. Set the Vitero server and account details
 4. Save and return to the settings menu to test connection
 
-If you want user avatars to be sent to Vitero, the WSO2 extension must be installed on your PHP server, otherwise, an
-error will be returned.
-
 ==Contact==
 
 This plugin is created and maintained by Yair Spielmann, Synergy Learning for Vitero.

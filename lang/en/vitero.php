@@ -91,7 +91,6 @@ $string['nologinhint'] = 'After the session ID is created you need to save the a
 After saving you need to click on the „update” icon of the activity to move in this configuration dialog again. Then you find a button to click on here.';
 $string['notstartedyet'] = 'This appointment has not started yet.';
 $string['novmssessioncode'] = 'Could not obtain VMS session code. Please test connection';
-$string['nowsclient'] = 'WSO2 extentions not installed properly on server. Cannot send avatars.';
 $string['paststarttime'] = 'Start time cannot be in the present or past';
 $string['pluginadministration'] = 'Vitero administration';
 $string['pluginname'] = 'Vitero';
@@ -103,7 +102,7 @@ $string['root_desc'] = 'Root path of Vitero in the host (optional)';
 $string['startbuffer'] = 'Start Buffer (minutes)';
 $string['starttime'] = 'Start Time';
 $string['syncavatars'] = 'Synchronise Avatars';
-$string['syncavatars_desc'] = 'Upload user avatars to Vitero. This requires the WSO2 extension for PHP on your server.';
+$string['syncavatars_desc'] = 'Upload user avatars to Vitero. Will send user\'s avatar every time the user views the activity.';
 $string['teamname'] = 'Team Name';
 $string['testconnection'] = 'Test Connection (after saving)';
 $string['vitero'] = 'Vitero';

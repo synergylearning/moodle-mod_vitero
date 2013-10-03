@@ -301,27 +301,30 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
     if (!$config->syncavatars) {
         return false;
     }
-    if (!class_exists('WSClient')) {
-        throw new moodle_exception(get_string('nowsclient', 'vitero'));
-    }
-    require_once('mtom/mtomlib.php');
+    $client = vitero_singlesoapclient::getclient();
     $context = context_user::instance($moodleuserid);
     $fs = get_file_storage();
-    if ($file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1/.png')) {
-        $image = $file->get_content();
-        $config = get_config('vitero');
-        $baseurl = vitero_get_baseurl() . '/services';
-        $settings = (object)array(
-            'ServerUrl' => $baseurl,
-            'AdminUser' => $config->adminusername,
-            'AdminPass' => $config->adminpassword
-        );
-        $fileinfo = array('name' => 'avatar.png', 'type' => 0, 'contents' => $image);
-        $mtomclient = new ilViteroAvatarSoapConnector($settings);
-        $mtomclient->storeavatar($viterouserid, $fileinfo);
-        return true;
+    if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1/.png')) {
+        return false;
     }
-    return false;
+    $image = $file->get_content();
+    $params = array(
+        'storeAvatarUsingBase64StringRequest' => array(
+            'userid' => $viterouserid,
+            'type' => 0,
+            'filename' => 'avatar_'.$viterouserid.'.png',
+            'file' => base64_encode($image),
+        )
+    );
+    $wsdl = 'user';
+    $method = 'storeAvatarUsingBase64String';
+    $result = $client->call($wsdl, $method, $params);
+
+    if ($errorcode = $client->getlasterrorcode()) {
+        vitero_errorstring($errorcode);
+        return false;
+    }
+    return true;
 }
 
 /*

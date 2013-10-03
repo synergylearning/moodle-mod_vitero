@@ -43,7 +43,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('vitero/customerid',
                     get_string('customerid', 'vitero'), get_string('customerid_desc', 'vitero'), ''));
     $settings->add(new admin_setting_configcheckbox('vitero/syncavatars',
-                    get_string('syncavatars', 'vitero'), get_string('syncavatars_desc', 'vitero'), 0));
+                                                    get_string('syncavatars', 'vitero'), get_string('syncavatars_desc', 'vitero'), 1));
 
     //Connection test:
     $url = $CFG->wwwroot . '/mod/vitero/conntest.php';
