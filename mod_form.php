@@ -75,11 +75,14 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform->setDefault('endtime', time() + 7200);
         $mform->addElement('text', 'startbuffer', get_string('startbuffer', 'vitero'), array('size' => '2'));
         $mform->setDefault('startbuffer', 15);
+        $mform->setType('startbuffer', PARAM_INT);
         $mform->addElement('text', 'endbuffer', get_string('endbuffer', 'vitero'), array('size' => '2'));
         $mform->setDefault('endbuffer', 15);
+        $mform->setType('endbuffer', PARAM_INT);
         $mform->addElement('select', 'roomsize', get_string('roomsize', 'vitero'));
         $mform->addElement('text', 'teamname', get_string('teamname', 'vitero'));
         $mform->addRule('teamname', null, 'required', null, 'client');
+        $mform->setType('teamname', PARAM_TEXT);
 
         //Direct login
         $mform->addElement('header', 'adminloginarea', get_string('adminlogin', 'vitero'));

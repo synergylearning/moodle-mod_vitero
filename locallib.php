@@ -318,7 +318,7 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
     );
     $wsdl = 'user';
     $method = 'storeAvatarUsingBase64String';
-    $result = $client->call($wsdl, $method, $params);
+    $client->call($wsdl, $method, $params);
 
     if ($errorcode = $client->getlasterrorcode()) {
         vitero_errorstring($errorcode);
