@@ -29,8 +29,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2013121200;      // The current module version (Date: YYYYMMDDXX)
-$module->requires  = 2013050100;      // Requires this Moodle version
+$module->version   = 2014012000;      // The current module version (Date: YYYYMMDDXX)
+$module->requires  = 2013111800;      // Requires this Moodle version
 $module->cron      = 0;               // Period for cron to check this module (secs)
 $module->component = 'mod_vitero'; // To check on upgrade, that module sits in correct place
 $module->maturity = MATURITY_STABLE;
