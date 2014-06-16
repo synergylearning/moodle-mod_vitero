@@ -14,25 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
- * Defines the version of vitero
+ * The mod_vitero course module viewed event.
  *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
- *
- * @package    mod
- * @subpackage vitero
- * @copyright  2012 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2014 Yair Spielmann
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_vitero\event;
+
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2014061301;      // The current module version (Date: YYYYMMDDXX)
-$module->requires  = 2014051200;      // Requires this Moodle version
-$module->cron      = 0;               // Period for cron to check this module (secs)
-$module->component = 'mod_vitero'; // To check on upgrade, that module sits in correct place
-$module->maturity = MATURITY_STABLE;
-$module->release = '1.0 (Build: 2013021401)';
-$module->dependencies = array();
+/**
+ * The mod_vitero course module viewed event class.
+ *
+ * @package    mod_vitero
+ * @since      Moodle 2.7
+ * @copyright  2014 Yair Spielmann
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class course_module_viewed extends \core\event\course_module_viewed {
+
+    /**
+     * Init method.
+     *
+     * @return void
+     */
+    protected function init() {
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['objecttable'] = 'vitero';
+    }
+}

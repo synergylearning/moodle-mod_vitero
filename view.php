@@ -63,7 +63,13 @@ if (has_capability('mod/vitero:teamleader', $context)) {
     $roleassign = VITERO_ROLE_PARTICIPANT;
 }
 
-add_to_log($course->id, 'vitero', 'view', "view.php?id={$cm->id}", $vitero->name, $cm->id);
+$params = array(
+    'objectid' => $vitero->id,
+    'context' => $context,
+    'courseid' => $course->id,
+);
+$event = \mod_vitero\event\course_module_viewed::create($params);
+$event->trigger();
 
 
 // Output starts here

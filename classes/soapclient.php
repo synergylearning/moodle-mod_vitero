@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library of SOAP functions specific to Vitero.
+ * SOAP client for Vitero.
  *
  * All the core Moodle functions, neeeded to allow the module to work
  * integrated in Moodle should be placed here.
@@ -28,10 +28,11 @@
  * @copyright  2012 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once($CFG->libdir . '/zend/Zend/Soap/Client.php');
 
-class vitero_soapclient {
+defined('MOODLE_INTERNAL') || die();
+
+class mod_vitero_soapclient {
 
     protected $client = null;
     protected $username = '';
@@ -164,29 +165,4 @@ class vitero_soapclient {
         return $soapfault;
     }
 
-}
-
-/*
- * Returns a single (static) SOAP client
- */
-class vitero_singlesoapclient {
-    private static $client;
-
-    /*
-     * Returns the SOAP client, initialises if needed
-     */
-    public static function getclient($alwaysdebug = false) {
-        if (!isset(vitero_singlesoapclient::$client)) {
-            global $CFG;
-
-            $config = get_config('vitero');
-            $baseurl = vitero_get_baseurl();
-            $debug = false;
-            if ($CFG->debug > DEBUG_NORMAL || $alwaysdebug) {
-                $debug = true;
-            }
-            vitero_singlesoapclient::$client = new vitero_soapclient($baseurl, $config->adminusername, $config->adminpassword, $debug);
-        }
-        return vitero_singlesoapclient::$client;
-    }
 }
