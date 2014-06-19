@@ -641,8 +641,8 @@ function vitero_create_meeting($vitero) {
     $method = 'createBooking';
     $result = $client->call($wsdl, $method, $params);
     if ($errorcode = $client->getlasterrorcode()) {
-        //Refresh client
-        vitero_refreshclient();
+        // Refresh client.
+        mod_vitero_singlesoapclient::refreshclient();
 
         //Delete team:
         vitero_delete_team($vitero->teamid);

@@ -33,7 +33,7 @@ class mod_vitero_singlesoapclient {
      * Returns the SOAP client, initialises if needed
      */
     public static function getclient($alwaysdebug = false) {
-        if (!isset(self::$client)) {
+        if (!isset(self::$client) || is_null(self::$client)) {
             global $CFG;
 
             $config = get_config('vitero');
@@ -45,5 +45,12 @@ class mod_vitero_singlesoapclient {
             self::$client = new mod_vitero_soapclient($baseurl, $config->adminusername, $config->adminpassword, $debug);
         }
         return self::$client;
+    }
+
+    /*
+     * Refreshes the client.
+     */
+    public static function refreshclient() {
+        self::$client = null;
     }
 }

@@ -85,21 +85,23 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
 
     //Append random number to the teamname
     $vitero->teamname .= '_MOODLE_'.random_string(10);
-    try {
-        //create team:
-        if (!$vitero->teamid = vitero_create_team($vitero->teamname)) {
-            return false;
-        }
 
+    //create team:
+    if (!$vitero->teamid = vitero_create_team($vitero->teamname)) {
+        throw new moodle_exception('cannotcreateteam', 'mod_vitero');
+    }
+
+    try {
         //create meeting:
         if (!$vitero->meetingid = vitero_create_meeting($vitero)) {
-            return false;
+            throw new moodle_exception('cannotcreatemeeting', 'mod_vitero');
         }
     } catch (moodle_exception $exception) {
-        //undo everything we can
-        $context = context_module::instance($vitero->coursemodule);
-        $context->delete();
-        $DB->delete_records('course_modules', array('id' => $vitero->coursemodule));
+        try {
+            vitero_delete_team($vitero->teamid);
+        } catch (Exception $e) {
+            // Do nothing. It's more important to report cannot create meeting than cannot delete team.
+        }
         throw $exception;
     }
 
