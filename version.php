@@ -23,14 +23,14 @@
  *
  * @package    mod
  * @subpackage vitero
- * @copyright  2012 Yair Spielmann, Synergy Learning
+ * @copyright  2015 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2014061302;      // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2014051200;      // Requires this Moodle version
+$plugin->version   = 2015020200;      // The current module version (Date: YYYYMMDDXX)
+$plugin->requires  = 2014101500;      // Requires this Moodle version
 $plugin->cron      = 0;               // Period for cron to check this module (secs)
 $plugin->component = 'mod_vitero'; // To check on upgrade, that module sits in correct place
 $plugin->maturity = MATURITY_STABLE;
