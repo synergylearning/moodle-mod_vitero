@@ -31,8 +31,8 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$n  = optional_param('n', 0, PARAM_INT);  // vitero instance ID - it should be named as the first character of the module
+$id = optional_param('id', 0, PARAM_INT); // Course_module ID, or.
+$n  = optional_param('n', 0, PARAM_INT);  // Vitero instance ID - it should be named as the first character of the module.
 
 if ($id) {
     $cm         = get_coursemodule_from_id('vitero', $id, 0, false, MUST_EXIST);
@@ -48,7 +48,7 @@ if ($id) {
 
 $context = context_module::instance($cm->id);
 
-/// Print the page header
+// Print the page header.
 $PAGE->set_context($context);
 $PAGE->set_url('/mod/vitero/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($vitero->name));
@@ -56,7 +56,7 @@ $PAGE->set_heading(format_string($course->fullname));
 
 require_login($course, true, $cm);
 
-//Assign role
+// Assign role.
 if (has_capability('mod/vitero:teamleader', $context)) {
     $roleassign = VITERO_ROLE_TEAMLEADER;
 } else {
@@ -72,16 +72,17 @@ $event = \mod_vitero\event\course_module_viewed::create($params);
 $event->trigger();
 
 
-// Output starts here
+// Output starts here.
 echo $OUTPUT->header();
 
 echo $OUTPUT->heading(get_string('viteroappointment', 'vitero'));
 
-if ($vitero->intro) { // Conditions to show the intro can change to look for own settings or whatever
+// Conditions to show the intro can change to look for own settings or whatever.
+if ($vitero->intro) {
     echo $OUTPUT->box(format_module_intro('vitero', $vitero, $cm->id), 'generalbox mod_introbox', 'viterointro');
 }
 
-//Display times:
+// Display times.
 $timesbox = get_string('starttime', 'vitero').': ' . userdate($vitero->starttime) . '<br />'
     . get_string('endtime', 'vitero') . ': '.userdate($vitero->endtime);
 echo $OUTPUT->box($timesbox, 'generalbox mod_introbox');
@@ -94,7 +95,7 @@ if (has_capability('mod/vitero:participant', $context)
     } else if ($vitero->endtime + (int)$vitero->endbuffer * 60 < time()) {
         $linkbox = get_string('alreadyover', 'vitero');
     } else {
-        //Get session code:
+        // Get session code.
         if (!$sessioncode = vitero_get_my_sessioncode($vitero, $roleassign)) {
             print_error('cannotobtainsessioncode', 'vitero');
         }
@@ -105,5 +106,5 @@ if (has_capability('mod/vitero:participant', $context)
     echo $OUTPUT->box($linkbox, 'generalbox mod_introbox');
 }
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

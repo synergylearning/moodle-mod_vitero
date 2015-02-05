@@ -45,7 +45,7 @@ function xmldb_vitero_upgrade($oldversion) {
 
     if ($oldversion < 2013021400) {
 
-        // Define table vitero_attendees to be dropped
+        // Define table vitero_attendees to be dropped.
         $table = new xmldb_table('vitero_attendees');
 
         // Conditionally launch drop table for vitero_attendees
@@ -53,7 +53,7 @@ function xmldb_vitero_upgrade($oldversion) {
             $dbman->drop_table($table);
         }
 
-        // vitero savepoint reached
+        // Vitero savepoint reached.
         upgrade_mod_savepoint(true, 2013021400, 'vitero');
     }
 

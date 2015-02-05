@@ -37,7 +37,7 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
 class mod_vitero_mod_form extends moodleform_mod {
 
     /**
-     * Defines forms elements
+     * Defines forms elements.
      */
     public function definition() {
         global $CFG;
@@ -45,10 +45,10 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform = $this->_form;
 
         //-------------------------------------------------------------------------------
-        // Adding the "general" fieldset, where all the common settings are showed
+        // Adding the "general" fieldset, where all the common settings are showed.
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        // Adding the standard "name" field
+        // Adding the standard "name" field.
         $mform->addElement('text', 'name', get_string('viteroname', 'vitero'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -59,12 +59,12 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'viteroname', 'vitero');
 
-        // Adding the standard "intro" and "introformat" fields
+        // Adding the standard "intro" and "introformat" fields.
         $this->add_intro_editor();
 
         //-------------------------------------------------------------------------------
         // Adding the rest of vitero settings, spreeading all them into this fieldset
-        // or adding more fieldsets ('header' elements) if needed for better logic
+        // or adding more fieldsets ('header' elements) if needed for better logic.
 
         $mform->addElement('header', 'appointmentfields', get_string('appointmentfields', 'vitero'));
 
@@ -84,16 +84,16 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform->addRule('teamname', null, 'required', null, 'client');
         $mform->setType('teamname', PARAM_TEXT);
 
-        //Direct login
+        // Direct login.
         $mform->addElement('header', 'adminloginarea', get_string('adminlogin', 'vitero'));
         $mform->addElement('button', 'adminlogin', get_string('adminlogin', 'vitero'));
         $mform->addElement('static', 'nologinhint', '',  nl2br(s(get_string('nologinhint', 'vitero'))));
 
         //-------------------------------------------------------------------------------
-        // add standard elements, common to all modules
+        // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();
         //-------------------------------------------------------------------------------
-        // add standard buttons, common to all modules
+        // Add standard buttons, common to all modules.
         $this->add_action_buttons();
     }
 
@@ -101,7 +101,7 @@ class mod_vitero_mod_form extends moodleform_mod {
         global $CFG;
 
         $mform = $this->_form;
-        //Load or freeze room size
+        // Load or freeze room size.
         if ($default_values->instance) {
             $roomsizes = array();
             $roomsizes[$default_values->roomsize] = $default_values->roomsize;
@@ -114,14 +114,14 @@ class mod_vitero_mod_form extends moodleform_mod {
             $roomsize->loadArray($roomsizes);
         }
 
-        //Freeze entire form if meeting is in the past:
+        // Freeze entire form if meeting is in the past.
         if (isset($default_values->endtime) && $default_values->endtime > 0 && isset($default_values->endbuffer)) {
             if ($default_values->endtime + (int)$default_values->endbuffer * 60 < time()) {
                 $mform->freeze();
             }
         }
 
-        //Give id to administration button (or hide if activity hasn't been created yet)
+        // Give id to administration button (or hide if activity hasn't been created yet).
         if ($default_values->coursemodule) {
             $adminbutton = $mform->getElement('adminlogin');
             $url = $CFG->wwwroot . '/mod/vitero/adminlogin.php?cm=' . $default_values->coursemodule;
@@ -139,7 +139,7 @@ class mod_vitero_mod_form extends moodleform_mod {
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
-        //validate times:
+        // Validate times.
         if (!$data['instance']) {
             if ($data['starttime'] >= $data['endtime']) {
                 $errors['starttime'] = get_string('greaterstarttime', 'vitero');

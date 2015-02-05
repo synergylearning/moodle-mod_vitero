@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    //--- general settings -----------------------------------------------------------------------------------
+    // General settings.
     $settings->add(new admin_setting_configtext('vitero/adminusername',
                     get_string('adminusername', 'vitero'), get_string('adminusername_desc', 'vitero'), 'admin'));
     $settings->add(new admin_setting_configpasswordunmask('vitero/adminpassword',
@@ -45,7 +45,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('vitero/syncavatars',
                                                     get_string('syncavatars', 'vitero'), get_string('syncavatars_desc', 'vitero'), 1));
 
-    //Connection test:
+    // Connection test.
     $url = $CFG->wwwroot . '/mod/vitero/conntest.php';
     $url = htmlentities($url);
     $options = 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=700,height=300';

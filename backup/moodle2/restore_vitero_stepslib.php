@@ -27,6 +27,7 @@
 
 /**
  * Structure step to restore one vitero activity
+ * @return restore_path_element
  */
 class restore_vitero_activity_structure_step extends restore_activity_structure_step {
 
@@ -39,6 +40,9 @@ class restore_vitero_activity_structure_step extends restore_activity_structure_
         return $this->prepare_activity_structure($paths);
     }
 
+    /*
+     * Process vitero data.
+     */
     protected function process_vitero($data) {
         global $DB;
 
@@ -48,14 +52,14 @@ class restore_vitero_activity_structure_step extends restore_activity_structure_
         $data->timemodified = $this->apply_date_offset($data->timemodified);
         $data->timecreated = time();
 
-        // insert the vitero record
+        // Insert the vitero record.
         $newitemid = $DB->insert_record('vitero', $data);
-        // immediately after inserting "activity" record, call this
+        // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
     protected function after_execute() {
-        // Add vitero related files, no need to match by itemname (just internally handled context)
+        // Add vitero related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_vitero', 'intro', null);
         $this->add_related_files('mod_vitero', 'content', null);
     }

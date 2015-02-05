@@ -39,16 +39,25 @@ require_once($CFG->libdir . '/eventslib.php');
 /** Include calendar/lib.php */
 require_once($CFG->dirroot . '/calendar/lib.php');
 
+/**
+ * VITERO_ROLE_PARTICIPANT - DB role id to represent Vitero parcitipant.
+ */
 define('VITERO_ROLE_PARTICIPANT', 0);
-define('VITERO_ROLE_ASSISTANT', 1);
-define('VITERO_ROLE_TEAMLEADER', 2);
-define('VITERO_ROLE_AUDIENCE', 3);
 
-/** example constant */
-//define('VITERO_ULTIMATE_ANSWER', 42);
-////////////////////////////////////////////////////////////////////////////////
-// Moodle core API                                                            //
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * VITERO_ROLE_ASSISTANT - DB role id to represent Vitero assistant.
+ */
+define('VITERO_ROLE_ASSISTANT', 1);
+
+/**
+ * VITERO_ROLE_TEAMLEADER - DB role id to represent Vitero team leader.
+ */
+define('VITERO_ROLE_TEAMLEADER', 2);
+
+/**
+ * VITERO_ROLE_AUDIENCE - role id of DB role id to represent Vitero audience.
+ */
+define('VITERO_ROLE_AUDIENCE', 3);
 
 /**
  * Returns the information on whether the module supports a feature
@@ -83,16 +92,16 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
 
     $vitero->timecreated = time();
 
-    //Append random number to the teamname
+    // Append random number to the teamname.
     $vitero->teamname .= '_MOODLE_'.random_string(10);
 
-    //create team:
+    // Create team.
     if (!$vitero->teamid = vitero_create_team($vitero->teamname)) {
         throw new moodle_exception('cannotcreateteam', 'mod_vitero');
     }
 
     try {
-        //create meeting:
+        // Create meeting.
         if (!$vitero->meetingid = vitero_create_meeting($vitero)) {
             throw new moodle_exception('cannotcreatemeeting', 'mod_vitero');
         }
@@ -145,20 +154,20 @@ function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = n
     $vitero->timemodified = time();
     $vitero->id = $vitero->instance;
 
-    //get old details:
+    // Get old details.
     if (!$old = $DB->get_record('vitero', array('id' => $vitero->id))) {
         return false;
     }
     $vitero->meetingid = $old->meetingid;
 
-    //update team name?
+    // Update team name if needed.
     if ($vitero->teamname != $old->teamname) {
         if (!vitero_update_team($old->teamid, $vitero->teamname)) {
             return false;
         }
     }
 
-    //Update calendar:
+    // Update calendar.
     $param = array('courseid' => $vitero->course, 'instance' =>
         $vitero->id, 'groupid' => 0,
         'modulename' => 'vitero');
@@ -181,7 +190,7 @@ function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = n
         $calendarevent->update($event);
     }
 
-    //update meeting:
+    // Update meeting.
     if (!vitero_update_meeting($vitero)) {
         return false;
     }
@@ -218,14 +227,14 @@ function vitero_delete_instance($id) {
 
     $DB->delete_records('vitero', array('id' => $vitero->id));
 
-    //delete meeting, if no other activity links to this:
+    // Delete meeting, if no other activity links to this.
     $allmeetings = $DB->get_records('vitero', array('meetingid' => $vitero->meetingid));
 
     if (!count($allmeetings)) {
         if (!vitero_delete_meeting($vitero)) {
             return false;
         }
-        //delete team:
+        // Delete team.
         vitero_delete_team($vitero->teamid);
     }
     return true;
@@ -306,7 +315,7 @@ function vitero_print_recent_mod_activity($activity, $courseid, $detail, $modnam
  * This function searches for things that need to be done, such
  * as sending out mail, toggling flags etc ...
  *
- * @return boolean
+ * @return bool
  * */
 function vitero_cron() {
     return true;

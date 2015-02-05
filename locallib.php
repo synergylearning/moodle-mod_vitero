@@ -28,7 +28,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 /*
- * Gets the Vitero id for the server time zone, or closest to it
+ * Gets the Vitero id for the server time zone, or closest to it.
+ * @return string
  */
 
 function vitero_get_moodle_timezone() {
@@ -137,7 +138,8 @@ function vitero_get_moodle_timezone() {
 
 
 /*
- * Makes out the full Vitero server url
+ * Makes out the full Vitero server url.
+ * @return string
  */
 
 function vitero_get_baseurl() {
@@ -159,8 +161,8 @@ function vitero_get_baseurl() {
 
 /*
  * Convert from UNIX time to Vitero timestamp.
- * Returns string.
- * @param int timestamp
+ * @param int $timestamp
+ * @return string
  */
 
 function vitero_time_unix_to_vitero($timestamp) {
@@ -170,7 +172,7 @@ function vitero_time_unix_to_vitero($timestamp) {
 /*
  * Convert from Vitero timestamp to UNIX timestamp.
  * Returns int.
- * @param string date
+ * @param string $date
  */
 
 function vitero_time_vitero_to_unix($date) {
@@ -178,8 +180,8 @@ function vitero_time_vitero_to_unix($date) {
 }
 
 /*
- * Throws an error string from error code
- * @param int errorid
+ * Throws an error string from error code.
+ * @param int $errorid
  */
 
 function vitero_errorstring($errorid) {
@@ -197,30 +199,31 @@ function vitero_errorstring($errorid) {
  * @param object vitero - a vitero db object
  * @param int roleid - assign a role.
  * @param string type - type of code (meeting or vms)
+ * @return mixed bool|string
  */
 
 function vitero_get_my_sessioncode($vitero, $roleid = VITERO_ROLE_PARTICIPANT, $type = 'meeting') {
     global $USER;
     $user = $USER;
 
-    //Does user exist in Vitero? If not, create:
+    // Does user exist in Vitero? If not, create.
     if (!$viterouserid = vitero_get_userid_by_email($user->email)) {
         if (!$viterouserid = vitero_create_user($user)) {
             return false;
         }
     }
 
-    //Assign to team, just in case
+    // Assign to team, just in case.
     if (!vitero_add_user_to_team($viterouserid, $vitero->teamid)) {
         return false;
     }
 
-    //Assign role:
+    // Assign role.
     if (!vitero_assign_team_role($viterouserid, $vitero->teamid, $roleid)) {
         return false;
     }
 
-    //Create code:
+    // Create code.
     if ($type == 'vms') {
         if (!$code = vitero_create_vms_sessioncode($viterouserid)) {
             return false;
@@ -231,14 +234,15 @@ function vitero_get_my_sessioncode($vitero, $roleid = VITERO_ROLE_PARTICIPANT, $
         }
     }
 
-    //Upload avatar:
+    // Upload avatar.
     vitero_upload_avatar($user->id, $viterouserid);
     return $code;
 }
 
 /*
  * Create a user. Returns team ID or false.
- * @param object user
+ * @param object $user
+ * @return mixed string|bool
  */
 
 function vitero_create_user($user) {
@@ -273,7 +277,7 @@ function vitero_create_user($user) {
     }
     $viterouserid = $result->userid;
 
-    //upload avatar:
+    // Upload avatar.
     vitero_upload_avatar($user->id, $viterouserid);
     return $viterouserid;
 }
@@ -282,6 +286,7 @@ function vitero_create_user($user) {
  * Upload avatar if possible.
  * @param int $moodleuserid
  * @param string $viterouserid
+ * @return bool success
  */
 function vitero_upload_avatar($moodleuserid, $viterouserid) {
     $config = get_config('vitero');
@@ -316,6 +321,7 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
 
 /*
  * Get all users for the customer. Returns array of users or false.
+ * @return array
  */
 
 function vitero_get_all_users() {
@@ -340,7 +346,7 @@ function vitero_get_all_users() {
         return false;
     }
 
-    //In case only one user exists
+    // In case only one user exists.
     if (!is_array($result->user)) {
         return array($result->user);
     }
@@ -349,8 +355,9 @@ function vitero_get_all_users() {
 }
 
 /*
- * Find whether a user's email address exists in Vitero, returns Vitero id if exists
- * @param string email
+ * Find whether a user's email address exists in Vitero, returns Vitero id if exists.
+ * @param string $email
+ * @return bool success
  */
 
 function vitero_get_userid_by_email($email) {
@@ -368,7 +375,8 @@ function vitero_get_userid_by_email($email) {
 
 /*
  * Find whether a user's username exists in Vitero, returns Vitero id if exists
- * @param string username
+ * @param string $username
+ * @return mixed string|bool
  */
 
 function vitero_get_userid_by_username($username) {
@@ -386,8 +394,9 @@ function vitero_get_userid_by_username($username) {
 
 /*
  * Add a user to team
- * @param int viterouserid - the VITERO user id (not Moodle!)
- * @param int teamid - the Vitero team (group) id
+ * @param int $viterouserid - the VITERO user id (not Moodle!)
+ * @param int $teamid - the Vitero team (group) id
+ * @return bool success
  */
 
 function vitero_add_user_to_team($viterouserid, $teamid) {
@@ -411,9 +420,10 @@ function vitero_add_user_to_team($viterouserid, $teamid) {
 
 /*
  * Assign a role to a user in a team
- * @param int viterouserid - the VITERO user id (not Moodle!)
- * @param int teamid - the Vitero team (group) id
- * @param int roleid - the id of the role to assign
+ * @param int $viterouserid - the VITERO user id (not Moodle!)
+ * @param int $teamid - the Vitero team (group) id
+ * @param int $roleid - the id of the role to assign
+ * @return bool success
  */
 
 function vitero_assign_team_role($viterouserid, $teamid, $roleid) {
@@ -437,7 +447,8 @@ function vitero_assign_team_role($viterouserid, $teamid, $roleid) {
 }
 
 /*
- * Returns a list (array) of available room sizes
+ * Returns a list of available room sizes.
+ * @return array
  */
 
 function vitero_get_available_roomsizes() {
@@ -474,8 +485,9 @@ function vitero_get_available_roomsizes() {
 
 /*
  * Creates a session code per user per meeting. Returns code or false.
- * @param int viterouserid - the VITERO user id (not Moodle!)
- * @param int meetingid - the Vitero meeting (booking) id
+ * @param int $viterouserid - the VITERO user id (not Moodle!)
+ * @param int $meetingid - the Vitero meeting (booking) id
+ * @return bool success
  */
 
 function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
@@ -504,8 +516,9 @@ function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
 
 /*
  * Creates a VMS session code for a user. Returns code or false.
- * @param int viterouserid - the VITERO user id (not Moodle!)
- * @param int meetingid - the Vitero meeting (booking) id
+ * @param int $viterouserid - the VITERO user id (not Moodle!)
+ * @param int $meetingid - the Vitero meeting (booking) id
+ * @return bool success
  */
 
 function vitero_create_vms_sessioncode($viterouserid) {
@@ -533,7 +546,8 @@ function vitero_create_vms_sessioncode($viterouserid) {
 
 /*
  * Create a team. Returns team ID or false.
- * @param string teamname
+ * @param string $teamname
+ * @return bool success
  */
 
 function vitero_create_team($teamname) {
@@ -565,8 +579,9 @@ function vitero_create_team($teamname) {
 
 /*
  * Updates a team. Returns success.
- * @param int teamid
- * @param string teamname
+ * @param int $teamid
+ * @param string $teamname
+ * @return bool success
  */
 
 function vitero_update_team($teamid, $teamname) {
@@ -592,7 +607,8 @@ function vitero_update_team($teamid, $teamname) {
 
 /*
  * Deletes a team. Returns success.
- * @param int teamid
+ * @param int $teamid
+ * @return bool success
  */
 
 function vitero_delete_team($teamid) {
@@ -615,13 +631,14 @@ function vitero_delete_team($teamid) {
 
 /*
  * Create meeting. Returns meeting id or false.
- * @param object vitero
+ * @param object $vitero
+ * @return bool success
  */
 
 function vitero_create_meeting($vitero) {
     $client = mod_vitero_singlesoapclient::getclient();
 
-    //Get time zone
+    // Get time zone.
     $timezone = vitero_get_moodle_timezone();
 
     $params = array(
@@ -644,7 +661,7 @@ function vitero_create_meeting($vitero) {
         // Refresh client.
         mod_vitero_singlesoapclient::refreshclient();
 
-        //Delete team:
+        // Delete team.
         vitero_delete_team($vitero->teamid);
 
         vitero_errorstring($errorcode);
@@ -658,13 +675,14 @@ function vitero_create_meeting($vitero) {
 
 /*
  * Update meeting. Return success.
- * @param object vitero
+ * @param object $vitero
+ * @return bool success
  */
 
 function vitero_update_meeting($vitero) {
     $client = mod_vitero_singlesoapclient::getclient();
 
-    //Get time zone
+    // Get time zone.
     $timezone = vitero_get_moodle_timezone();
 
     $params = array(
@@ -688,8 +706,9 @@ function vitero_update_meeting($vitero) {
 }
 
 /*
- * Deletes a meeting. Return success.
- * @param object vitero
+ * Deletes a meeting.
+ * @param object $vitero
+ * @return bool success
  */
 
 function vitero_delete_meeting($vitero) {
@@ -711,7 +730,8 @@ function vitero_delete_meeting($vitero) {
 }
 
 /*
- * A Vitero connection test, returns success
+ * A Vitero connection test.
+ * @return bool success
  */
 
 function vitero_connection_test() {
@@ -739,7 +759,8 @@ function vitero_connection_test() {
 }
 
 /*
- * Returns a direct login url using a VMS session code
+ * Returns a direct login url using a VMS session code.
+ * @return string
  */
 
 function vitero_get_admin_loginurl() {

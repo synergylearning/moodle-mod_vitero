@@ -32,16 +32,35 @@ require_once($CFG->libdir . '/zend/Zend/Soap/Client.php');
 
 defined('MOODLE_INTERNAL') || die();
 
-class mod_vitero_soapclient {
+/**
+ * SOAP client suited for the Vitero server.
+ * @package    mod
+ * @subpackage vitero
+ * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
+class mod_vitero_soapclient {
+    /** @var Zend_Soap_Client the soap client */
     protected $client = null;
+
+    /** @var string the soap username */
     protected $username = '';
+
+    /** @var string the soap password */
     protected $password = '';
+
+    /** @var string the soap base url */
     protected $baseurl = null;
+
+    /** @var bool whether we're debugging */
     protected $debug = false;
+
+    /** @var Exception the last fault thrown by soap client */
     protected $lastfault = null;
 
-    /* Creates a SOAP client object
+    /**
+     * Creates a SOAP client object
      * @param string base url
      * @param string username
      * @param string password
@@ -58,7 +77,8 @@ class mod_vitero_soapclient {
         $this->client = new Zend_Soap_Client(null, $options);
     }
 
-    /* Create a SOAP header that matches Vitero's WSS secutiry standards
+    /**
+     * Create a SOAP header that matches Vitero's WSS secutiry standards
      */
 
     private function wssecurity_header($username, $password) {
@@ -90,7 +110,8 @@ class mod_vitero_soapclient {
         return $header;
     }
 
-    /* Makes a SOAP call
+    /**
+     * Makes a SOAP call
      * @param string wsdlname - name of service (e.g. user, group, sessioncode)
      * @param string method
      * @param array params
@@ -116,8 +137,9 @@ class mod_vitero_soapclient {
         return $response;
     }
 
-    /*
+    /**
      * Returns the last soap fault object, if exists, otherwise 0
+     * @return int
      */
     public function getlasterrorcode() {
         if (is_null($this->lastfault)) {
@@ -126,8 +148,10 @@ class mod_vitero_soapclient {
         return $this->lastfault->errorcode;
     }
 
-    /* Returns an object with errorcode and faulstring from a soap fault envelope.
+    /**
+     * Returns an object with errorcode and faulstring from a soap fault envelope.
      * @param string xml
+     * @return object
      */
 
     private function get_soapfault($xml) {

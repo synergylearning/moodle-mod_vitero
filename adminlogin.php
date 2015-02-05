@@ -34,17 +34,16 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('connectiontest', 'vitero'));
 $PAGE->set_url($CFG->wwwroot.'/mod/vitero/adminlogin.php');
 
-//Load module:
+// Load module.
 $cm = get_coursemodule_from_id('vitero', $cmid, 0, false, MUST_EXIST);
 $vitero = $DB->get_record('vitero', array('id' => $cm->instance), '*', MUST_EXIST);
 
-//Capability check
+// Capability check.
 require_login($cm->course, false, $cm);
 $cmcontext = context_module::instance($cmid);
 require_capability('mod/vitero:addinstance', $cmcontext);
 
-//Create user if not exists, assign to team as teamleader
-//And get session code
+// Create user if not exists, assign to team as teamleader and get session code.
 if ($sessioncode = vitero_get_my_sessioncode($vitero, VITERO_ROLE_TEAMLEADER, 'vms')) {
     $url = vitero_get_baseurl() . '/user/cms/groupfolder.htm?groupId=' . $vitero->teamid . '&code=' . $sessioncode
         .'&fl=1&action=reload';

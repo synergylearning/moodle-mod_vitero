@@ -24,13 +24,21 @@
 defined('MOODLE_INTERNAL') || die();
 
 /*
- * A single (static) SOAP client
+ * A single (static) SOAP client.
+ * @package    mod
+ * @subpackage vitero
+ * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_vitero_singlesoapclient {
+
+    /** @var mod_vitero_soapclient the soap client container */
     private static $client;
 
     /*
-     * Returns the SOAP client, initialises if needed
+     * Returns the SOAP client, initialises if needed.
+     * @param bool $alwaysdebug
+     * @return mod_vitero_soapclient
      */
     public static function getclient($alwaysdebug = false) {
         if (!isset(self::$client) || is_null(self::$client)) {
@@ -49,6 +57,7 @@ class mod_vitero_singlesoapclient {
 
     /*
      * Refreshes the client.
+     * @return void
      */
     public static function refreshclient() {
         self::$client = null;

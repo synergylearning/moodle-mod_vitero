@@ -35,14 +35,14 @@ class restore_vitero_activity_task extends restore_activity_task {
      * Define (add) particular settings this activity can have
      */
     protected function define_my_settings() {
-        // No particular settings for this activity
+        // No particular settings for this activity.
     }
 
     /**
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
-        //Phase 1: prevent duplicate
+        // Phase 1: prevent duplicate.
         global $DB, $PAGE;
         // Do not allow activities to be 'duplicated' at all
         if (basename($_SERVER['SCRIPT_NAME']) == 'modduplicate.php') {
@@ -57,13 +57,14 @@ class restore_vitero_activity_task extends restore_activity_task {
             echo $output->footer();
             die();
         }
-        // vitero only has one structure step
+        // Vitero only has one structure step.
         $this->add_step(new restore_vitero_activity_structure_step('vitero_structure', 'vitero.xml'));
     }
 
     /**
      * Define the contents in the activity that must be
      * processed by the link decoder
+     * @return restore_decode_content
      */
     static public function define_decode_contents() {
         $contents = array();
@@ -76,6 +77,7 @@ class restore_vitero_activity_task extends restore_activity_task {
     /**
      * Define the decoding rules for links belonging
      * to the activity to be executed by the link decoder
+     * @return array
      */
     static public function define_decode_rules() {
         $rules = array();
@@ -92,6 +94,7 @@ class restore_vitero_activity_task extends restore_activity_task {
      * by the {@link restore_logs_processor} when restoring
      * vitero logs. It must return one array
      * of {@link restore_log_rule} objects
+     * @return array
      */
     static public function define_restore_log_rules() {
         $rules = array();
@@ -112,6 +115,7 @@ class restore_vitero_activity_task extends restore_activity_task {
      * Note this rules are applied when restoring course logs
      * by the restore final task, but are defined here at
      * activity level. All them are rules not linked to any module instance (cmid = 0)
+     * @return array
      */
     static public function define_restore_log_rules_for_course() {
         $rules = array();
