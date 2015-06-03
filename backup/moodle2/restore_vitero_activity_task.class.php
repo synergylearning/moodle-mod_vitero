@@ -42,21 +42,6 @@ class restore_vitero_activity_task extends restore_activity_task {
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
-        // Phase 1: prevent duplicate.
-        global $DB, $PAGE;
-        // Do not allow activities to be 'duplicated' at all
-        if (basename($_SERVER['SCRIPT_NAME']) == 'modduplicate.php') {
-            $courseid   = required_param('course',  PARAM_INT);
-            $course     = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-            $output     = $PAGE->get_renderer('core', 'backup');
-            echo $output->header();
-            echo $output->box_start();
-            echo $output->notification(get_string('errorduplicate', 'vitero'));
-            echo $output->continue_button(new moodle_url('/course/view.php', array('id' => $course->id)));
-            echo $output->box_end();
-            echo $output->footer();
-            die();
-        }
         // Vitero only has one structure step.
         $this->add_step(new restore_vitero_activity_structure_step('vitero_structure', 'vitero.xml'));
     }

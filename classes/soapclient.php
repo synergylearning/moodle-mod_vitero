@@ -60,10 +60,10 @@ class mod_vitero_soapclient {
     protected $lastfault = null;
 
     /**
-     * Creates a SOAP client object
-     * @param string base url
-     * @param string username
-     * @param string password
+     * Creates a SOAP client object.
+     * @param string $baseurl
+     * @param string $username
+     * @param string $password
      */
 
     public function __construct($baseurl, $username, $password, $debug = false) {
@@ -111,10 +111,10 @@ class mod_vitero_soapclient {
     }
 
     /**
-     * Makes a SOAP call
-     * @param string wsdlname - name of service (e.g. user, group, sessioncode)
-     * @param string method
-     * @param array params
+     * Makes a SOAP call.
+     * @param string $wsdlname - name of service (e.g. user, group, sessioncode).
+     * @param string $method
+     * @param array $params
      */
 
     public function call($wsdlname, $method, $params = array()) {

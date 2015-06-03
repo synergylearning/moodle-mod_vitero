@@ -60,7 +60,7 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform->addHelpButton('name', 'viteroname', 'vitero');
 
         // Adding the standard "intro" and "introformat" fields.
-        $this->add_intro_editor();
+        $this->standard_intro_elements();
 
         //-------------------------------------------------------------------------------
         // Adding the rest of vitero settings, spreeading all them into this fieldset

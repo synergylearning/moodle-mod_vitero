@@ -35,13 +35,13 @@ $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or.
 $n  = optional_param('n', 0, PARAM_INT);  // Vitero instance ID - it should be named as the first character of the module.
 
 if ($id) {
-    $cm         = get_coursemodule_from_id('vitero', $id, 0, false, MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+    $cm      = get_coursemodule_from_id('vitero', $id, 0, false, MUST_EXIST);
+    $course  = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $vitero  = $DB->get_record('vitero', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($n) {
     $vitero  = $DB->get_record('vitero', array('id' => $n), '*', MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $vitero->course), '*', MUST_EXIST);
-    $cm         = get_coursemodule_from_instance('vitero', $vitero->id, $course->id, false, MUST_EXIST);
+    $course  = $DB->get_record('course', array('id' => $vitero->course), '*', MUST_EXIST);
+    $cm      = get_coursemodule_from_instance('vitero', $vitero->id, $course->id, false, MUST_EXIST);
 } else {
     print_error('You must specify a course_module ID or an instance ID');
 }

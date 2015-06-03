@@ -297,7 +297,9 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
     $context = context_user::instance($moodleuserid);
     $fs = get_file_storage();
     if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1/.png')) {
-        return false;
+        if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1/.jpg')) {
+            return false;
+        }
     }
     $image = $file->get_content();
     $params = array(
