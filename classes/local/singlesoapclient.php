@@ -15,30 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * The mod_vitero single soap client.
  *
- *
- * @copyright 2014 Yair Spielmann, Synergy Learning
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace mod_vitero\local;
 
 defined('MOODLE_INTERNAL') || die();
 
 /*
  * A single (static) SOAP client.
- * @package    mod
- * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_vitero_singlesoapclient {
+class singlesoapclient {
 
-    /** @var mod_vitero_soapclient the soap client container */
+    /** @var soapclient the soap client container */
     private static $client;
 
     /*
      * Returns the SOAP client, initialises if needed.
      * @param bool $alwaysdebug
-     * @return mod_vitero_soapclient
+     * @return soapclient
      */
     public static function getclient($alwaysdebug = false) {
         if (!isset(self::$client) || is_null(self::$client)) {
@@ -50,7 +52,7 @@ class mod_vitero_singlesoapclient {
             if ($CFG->debug > DEBUG_NORMAL || $alwaysdebug) {
                 $debug = true;
             }
-            self::$client = new mod_vitero_soapclient($baseurl, $config->adminusername, $config->adminpassword, $debug);
+            self::$client = new soapclient($baseurl, $config->adminusername, $config->adminpassword, $debug);
         }
         return self::$client;
     }

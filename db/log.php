@@ -21,9 +21,8 @@
  * It is not really essential to know about it, but these logs were created as example
  * in the previous 1.9 NEWMODULE.
  *
- * @package    mod
- * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

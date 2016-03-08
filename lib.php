@@ -23,9 +23,8 @@
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package    mod
- * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();

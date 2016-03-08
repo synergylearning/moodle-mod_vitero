@@ -39,9 +39,8 @@
  *
  * The variable name for the capability definitions array is $capabilities
  *
- * @package    mod
- * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

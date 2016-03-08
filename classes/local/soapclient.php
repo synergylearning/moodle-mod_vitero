@@ -23,11 +23,14 @@
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package    mod
- * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace mod_vitero\local;
+
+global $CFG;
 require_once($CFG->libdir . '/zend/Zend/Soap/Client.php');
 
 defined('MOODLE_INTERNAL') || die();
@@ -36,11 +39,11 @@ defined('MOODLE_INTERNAL') || die();
  * SOAP client suited for the Vitero server.
  * @package    mod
  * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class mod_vitero_soapclient {
+class soapclient {
     /** @var Zend_Soap_Client the soap client */
     protected $client = null;
 
@@ -74,7 +77,7 @@ class mod_vitero_soapclient {
         $options = array(
             'soap_version' => SOAP_1_1,
         );
-        $this->client = new Zend_Soap_Client(null, $options);
+        $this->client = new \Zend_Soap_Client(null, $options);
     }
 
     /**
@@ -103,8 +106,8 @@ class mod_vitero_soapclient {
          * correct namespace for the variables, so the axis server rejects the
          * xml.
          */
-        $authvalues = new SoapVar($auth, XSD_ANYXML);
-        $header = new SoapHeader("http://docs.oasis-open.org/wss/2004/01/oasis-" .
+        $authvalues = new \SoapVar($auth, XSD_ANYXML);
+        $header = new \SoapHeader("http://docs.oasis-open.org/wss/2004/01/oasis-" .
                         "200401-wss-wssecurity-secext-1.0.xsd", "Security", $authvalues,
                         true);
         return $header;

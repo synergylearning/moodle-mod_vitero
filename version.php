@@ -21,16 +21,15 @@
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
  *
- * @package    mod
- * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015060100;      // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2015041700;      // Requires this Moodle version
+$plugin->version   = 2016020500;      // The current module version (Date: YYYYMMDDXX)
+$plugin->requires  = 2015111600;      // Requires this Moodle version
 $plugin->cron      = 0;               // Period for cron to check this module (secs)
 $plugin->component = 'mod_vitero'; // To check on upgrade, that module sits in correct place
 $plugin->maturity = MATURITY_STABLE;

@@ -18,7 +18,7 @@
  * The mod_vitero course module viewed event.
  *
  * @package    mod_vitero
- * @copyright  2014 Yair Spielmann
+ * @copyright  2016 Yair Spielmann
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @package    mod_vitero
  * @since      Moodle 2.7
- * @copyright  2014 Yair Spielmann
+ * @copyright  2016 Yair Spielmann
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_viewed extends \core\event\course_module_viewed {
@@ -45,5 +45,9 @@ class course_module_viewed extends \core\event\course_module_viewed {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'vitero';
+    }
+
+    public static function get_objectid_mapping() {
+        return array('db' => 'vitero', 'restore' => 'vitero');
     }
 }

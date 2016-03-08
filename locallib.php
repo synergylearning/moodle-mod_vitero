@@ -20,11 +20,13 @@
  * All the vitero specific functions, needed to implement the module
  * logic, should go here. Never include this file from your lib.php!
  *
- * @package    mod
- * @subpackage vitero
- * @copyright  2015 Yair Spielmann, Synergy Learning
+ * @package    mod_vitero
+ * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use mod_vitero\local\singlesoapclient;
+
 defined('MOODLE_INTERNAL') || die();
 
 /*
@@ -246,7 +248,7 @@ function vitero_get_my_sessioncode($vitero, $roleid = VITERO_ROLE_PARTICIPANT, $
  */
 
 function vitero_create_user($user) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
@@ -293,7 +295,7 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
     if (!$config->syncavatars) {
         return false;
     }
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
     $context = context_user::instance($moodleuserid);
     $fs = get_file_storage();
     if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1/.png')) {
@@ -327,7 +329,7 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
  */
 
 function vitero_get_all_users() {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
@@ -402,7 +404,7 @@ function vitero_get_userid_by_username($username) {
  */
 
 function vitero_add_user_to_team($viterouserid, $teamid) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     $params = array(
         'addUserToGroupRequest' => array(
@@ -429,7 +431,7 @@ function vitero_add_user_to_team($viterouserid, $teamid) {
  */
 
 function vitero_assign_team_role($viterouserid, $teamid, $roleid) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     $params = array(
         'changeGroupRoleRequest' => array(
@@ -454,7 +456,7 @@ function vitero_assign_team_role($viterouserid, $teamid, $roleid) {
  */
 
 function vitero_get_available_roomsizes() {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
@@ -493,7 +495,7 @@ function vitero_get_available_roomsizes() {
  */
 
 function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     $params = array(
         'createPersonalBookingSessionCodeRequest' => array(
@@ -524,7 +526,7 @@ function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
  */
 
 function vitero_create_vms_sessioncode($viterouserid) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     $params = array(
         'createVmsSessionCode' => array(
@@ -553,7 +555,7 @@ function vitero_create_vms_sessioncode($viterouserid) {
  */
 
 function vitero_create_team($teamname) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
@@ -587,7 +589,7 @@ function vitero_create_team($teamname) {
  */
 
 function vitero_update_team($teamid, $teamname) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     $params = array(
         'updateGroupRequest' => array(
@@ -614,7 +616,7 @@ function vitero_update_team($teamid, $teamname) {
  */
 
 function vitero_delete_team($teamid) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     $params = array(
         'deleteGroupRequest' => array(
@@ -638,7 +640,7 @@ function vitero_delete_team($teamid) {
  */
 
 function vitero_create_meeting($vitero) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     // Get time zone.
     $timezone = vitero_get_moodle_timezone();
@@ -661,7 +663,7 @@ function vitero_create_meeting($vitero) {
     $result = $client->call($wsdl, $method, $params);
     if ($errorcode = $client->getlasterrorcode()) {
         // Refresh client.
-        mod_vitero_singlesoapclient::refreshclient();
+        singlesoapclient::refreshclient();
 
         // Delete team.
         vitero_delete_team($vitero->teamid);
@@ -682,7 +684,7 @@ function vitero_create_meeting($vitero) {
  */
 
 function vitero_update_meeting($vitero) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     // Get time zone.
     $timezone = vitero_get_moodle_timezone();
@@ -714,7 +716,7 @@ function vitero_update_meeting($vitero) {
  */
 
 function vitero_delete_meeting($vitero) {
-    $client = mod_vitero_singlesoapclient::getclient();
+    $client = singlesoapclient::getclient();
 
     $params = array(
         'deleteBookingRequest' => array(
@@ -737,7 +739,7 @@ function vitero_delete_meeting($vitero) {
  */
 
 function vitero_connection_test() {
-    $client = mod_vitero_singlesoapclient::getclient(true);
+    $client = singlesoapclient::getclient(true);
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
