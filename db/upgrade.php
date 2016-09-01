@@ -56,6 +56,57 @@ function xmldb_vitero_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2013021400, 'vitero');
     }
 
+    if ($oldversion < 2016072800) {
+
+        // Define table vitero_remusers to be created.
+        $table = new xmldb_table('vitero_remusers');
+
+        // Adding fields to table vitero_remusers.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('viteroid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('lastemail', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table vitero_remusers.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Adding indexes to table vitero_remusers.
+        $table->add_index('userid', XMLDB_INDEX_UNIQUE, array('userid'));
+        $table->add_index('viteroid', XMLDB_INDEX_UNIQUE, array('viteroid'));
+
+        // Conditionally launch create table for vitero_remusers.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Vitero savepoint reached.
+        upgrade_mod_savepoint(true, 2016072800, 'vitero');
+    }
+
+    if ($oldversion < 2016081900) {
+
+        // Define field lastfirstname to be added to vitero_remusers.
+        $table = new xmldb_table('vitero_remusers');
+
+        // Conditionally launch add field lastfirstname.
+        $field = new xmldb_field('lastfirstname', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'lastemail');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        
+        // Conditionally launch add field lastlastname.
+        $field = new xmldb_field('lastlastname', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'lastfirstname');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Vitero savepoint reached.
+        upgrade_mod_savepoint(true, 2016081900, 'vitero');
+    }
+
+
+
     // Final return of upgrade result (true, all went good) to Moodle.
     return true;
 }

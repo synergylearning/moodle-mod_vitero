@@ -29,5 +29,24 @@
         <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
       </INDEXES>
     </TABLE>
+    <TABLE NAME="vitero_remusers" COMMENT="Remote Vitero user tracking">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Moodle userid"/>
+        <FIELD NAME="viteroid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="id in Vitero"/>
+        <FIELD NAME="lastemail" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="Last email sent to Vitero"/>
+        <FIELD NAME="lastfirstname" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="lastlastname" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timeupdated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="userid" UNIQUE="true" FIELDS="userid"/>
+        <INDEX NAME="viteroid" UNIQUE="true" FIELDS="viteroid"/>
+      </INDEXES>
+    </TABLE>
   </TABLES>
 </XMLDB>

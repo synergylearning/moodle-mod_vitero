@@ -209,9 +209,13 @@ function vitero_get_my_sessioncode($vitero, $roleid = VITERO_ROLE_PARTICIPANT, $
     $user = $USER;
 
     // Does user exist in Vitero? If not, create.
-    if (!$viterouserid = vitero_get_userid_by_email($user->email)) {
-        if (!$viterouserid = vitero_create_user($user)) {
-            return false;
+    if (!$viterouserid = vitero_get_remuserid_by_id($user->id)) {
+        if($viterouserid = vitero_get_remuserid_by_email($user->email)) {
+            vitero_save_remuser($user, $viterouserid);
+        } else {
+            if (!$viterouserid = vitero_create_user($user)) {
+                return false;
+            }
         }
     }
 
@@ -281,7 +285,42 @@ function vitero_create_user($user) {
 
     // Upload avatar.
     vitero_upload_avatar($user->id, $viterouserid);
+
+    // Save reference.
+    vitero_save_remuser($user, $viterouserid);
+
     return $viterouserid;
+}
+
+/**
+ * Updates user email in Vitero.
+ * @param $viteroid
+ * @param object $user
+ * @return bool
+ * @throws dml_exception
+ * @throws moodle_exception
+ */
+function vitero_update_remote_details($viteroid, $user) {
+    $client = singlesoapclient::getclient();
+
+    $params = array(
+        'updateUserRequest' => array(
+            'user' => array(
+                'id' => $viteroid,
+                'email' => $user->email,
+                'firstname' => $user->firstname,
+                'surname' => $user->lastname,
+            )
+        )
+    );
+    $wsdl = 'user';
+    $method = 'updateUser';
+    $client->call($wsdl, $method, $params);
+    if ($errorcode = $client->getlasterrorcode()) {
+        vitero_errorstring($errorcode);
+        return false;
+    }
+    return true;
 }
 
 /*
@@ -364,7 +403,7 @@ function vitero_get_all_users() {
  * @return bool success
  */
 
-function vitero_get_userid_by_email($email) {
+function vitero_get_remuserid_by_email($email) {
     if (!$users = vitero_get_all_users()) {
         return false;
     }
@@ -375,6 +414,54 @@ function vitero_get_userid_by_email($email) {
         }
     }
     return false;
+}
+
+/**
+ * Get remote (vitero) user id if saved locally.
+ * @param $userid
+ */
+function vitero_get_remuserid_by_id($userid) {
+    global $DB;
+    return $DB->get_field('vitero_remusers', 'viteroid', array('userid' => $userid));
+}
+
+/**
+ * Save new user to reference table by vitero id. Assumed vitero id is not already saved.
+ * @param object $user
+ * @param int $viteroid
+ * @return bool success
+ */
+function vitero_save_remuser($user, $viteroid) {
+    global $DB;
+
+    $DB->delete_records('vitero_remusers', array('userid' => $user->id)); // Just in case.
+    $toinsert = (object)array(
+        'userid' => $user->id,
+        'viteroid' => $viteroid,
+        'lastemail' => $user->email,
+        'timecreated' => time(),
+        'timeupdated' => time(),
+    );
+    return $DB->insert_record('vitero_remusers', $toinsert);
+}
+
+/**
+ * Update the remote user after their details have changed.
+ * @param object $user
+ * @return bool success
+ */
+function vitero_update_remuser($user) {
+    global $DB;
+
+    if (!$rec = $DB->get_record('vitero_remusers', array('userid' => $user->id))) {
+        return false;
+    }
+    $rec->lastemail = $user->email;
+    $rec->lastfirstname = $user->firstname;
+    $rec->lastlastname = $user->lastname;
+    $rec->lastemail = $user->email;
+    $rec->timeupdated = time();
+    return $DB->update_record('vitero_remusers', $rec);
 }
 
 /*
