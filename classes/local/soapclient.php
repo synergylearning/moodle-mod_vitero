@@ -30,9 +30,6 @@
 
 namespace mod_vitero\local;
 
-global $CFG;
-require_once($CFG->libdir . '/zend/Zend/Soap/Client.php');
-
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -44,7 +41,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 
 class soapclient {
-    /** @var Zend_Soap_Client the soap client */
+    /** @var zsc\client the soap client */
     protected $client = null;
 
     /** @var string the soap username */
@@ -78,7 +75,7 @@ class soapclient {
             'soap_version' => SOAP_1_1,
             'exceptions' => true,
         );
-        $this->client = new \Zend_Soap_Client(null, $options);
+        $this->client = new zsc\client(null, $options);
     }
 
     /**

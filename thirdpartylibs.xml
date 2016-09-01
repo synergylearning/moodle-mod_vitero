@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>classes/local/zsc</location>
+    <name>Zend_Soap</name>
+    <license>New BSD License</license>
+    <version>1.12.16</version>
+  </library>
+</libraries>
