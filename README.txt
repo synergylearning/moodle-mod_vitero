@@ -1,4 +1,4 @@
-Vitero Activity Plugin for Moodle 2.9
+Vitero Activity Plugin for Moodle 3.1
 
 ==Features==
 
