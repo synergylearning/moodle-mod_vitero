@@ -76,6 +76,7 @@ class soapclient {
         $this->debug = $debug;
         $options = array(
             'soap_version' => SOAP_1_1,
+            'exceptions' => true,
         );
         $this->client = new \Zend_Soap_Client(null, $options);
     }
@@ -128,12 +129,12 @@ class soapclient {
         $this->client->setWsdl($wsdl);
         try {
             $response = $this->client->__call($method, $params);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $lastresponse = $this->client->getLastResponse();
             if ($lastfault = $this->get_soapfault($lastresponse)) {
                 $this->lastfault = $lastfault;
             } else if ($this->debug) {
-                echo $lastresponse;
+                echo $ex->getMessage() . '|' . $lastresponse;
             }
             return false;
         }
@@ -159,11 +160,11 @@ class soapclient {
 
     private function get_soapfault($xml) {
         try {
-            $soapfault = new stdClass();
+            $soapfault = new \stdClass();
             $soapfault->faultstring = '';
             $soapfault->errorcode = 0;
             $cleanxml = str_replace('SOAP-ENV:', '', $xml);
-            if (!$envelope = new SimpleXMLElement($cleanxml)) {
+            if (!$envelope = new \SimpleXMLElement($cleanxml)) {
                 return false;
             }
             if (!$body = $envelope->Body) {
@@ -185,7 +186,7 @@ class soapclient {
                 return false;
             }
             $soapfault->errorcode = $errorcode;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 

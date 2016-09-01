@@ -16,7 +16,7 @@
 
 
 /**
- * Defines the version of vitero
+ * Event observers for Vitero.
  *
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
@@ -28,10 +28,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016081900;      // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2015111600;      // Requires this Moodle version
-$plugin->cron      = 0;               // Period for cron to check this module (secs)
-$plugin->component = 'mod_vitero'; // To check on upgrade, that module sits in correct place
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.0 (Build: 2016072800)';
-$plugin->dependencies = array();
+$observers = array(
+    array(
+        'eventname' => '\core\event\user_updated',
+        'callback' => 'mod_vitero\local\user_updated::observe_user_updated',
+    ),
+);
