@@ -16,7 +16,7 @@
 
 
 /**
- * Event observers for Vitero.
+ * User details updater class for Vitero.
  *
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
@@ -26,15 +26,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_vitero\local;
+
 defined('MOODLE_INTERNAL') || die();
 
-$observers = array(
-    array(
-        'eventname' => '\core\event\user_updated',
-        'callback' => 'mod_vitero\local\user_updated::observe_user_updated',
-    ),
-    array(
-        'eventname' => '\core\event\user_deleted',
-        'callback' => 'mod_vitero\local\user_deleted::observe_user_deleted',
-    ),
-);
+class user_deleted
+{
+    public static function observe_user_deleted(\core\event\user_deleted $event) {
+        global $DB;
+
+        $data = $event->get_data();
+        $user = $event->get_record_snapshot('user', $data['objectid']);
+
+        // Remove all user tracking.
+        $DB->delete_records('vitero_remusers', array('userid' => $user->id));
+    }
+}
