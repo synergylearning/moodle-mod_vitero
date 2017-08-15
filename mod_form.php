@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once $CFG->dirroot . '/course/moodleform_mod.php';
 
 /**
  * Module instance settings form
@@ -114,7 +114,7 @@ class mod_vitero_mod_form extends moodleform_mod {
         }
 
         // Freeze entire form if meeting is in the past.
-        if (isset($default_values->endtime) && $default_values->endtime > 0 && isset($default_values->endbuffer)) {
+        if (isset($default_values->endtime, $default_values->endbuffer) && $default_values->endtime > 0) {
             if ($default_values->endtime + (int)$default_values->endbuffer * 60 < time()) {
                 $mform->freeze();
             }

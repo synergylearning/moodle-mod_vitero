@@ -27,8 +27,8 @@
 
 /// (Replace vitero with the name of your module and remove this line)
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once __DIR__.'../../../config.php';
+require_once __DIR__.'/lib.php';
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or.
 $n  = optional_param('n', 0, PARAM_INT);  // Vitero instance ID - it should be named as the first character of the module.
@@ -56,10 +56,9 @@ $PAGE->set_heading(format_string($course->fullname));
 require_login($course, true, $cm);
 
 // Assign role.
+$roleassign = VITERO_ROLE_PARTICIPANT;
 if (has_capability('mod/vitero:teamleader', $context)) {
     $roleassign = VITERO_ROLE_TEAMLEADER;
-} else {
-    $roleassign = VITERO_ROLE_PARTICIPANT;
 }
 
 $params = array(
@@ -99,8 +98,8 @@ if (has_capability('mod/vitero:participant', $context)
             print_error('cannotobtainsessioncode', 'vitero');
         }
         $baseurl = vitero_get_baseurl();
-        $fullurl = $baseurl.'/start.htm?sessionCode='.$sessioncode;
-        $linkbox = '<a href="'.$fullurl.'" target="_blank">'.get_string('clickhereformeeting', 'vitero').'</a>';
+        $fullurl = new moodle_url($baseurl.'/start.htm', array('sessionCode' => $sessioncode));
+        $linkbox = html_writer::link($fullurl, get_string('clickhereformeeting', 'vitero'), array('target' => '_blank'));
     }
     echo $OUTPUT->box($linkbox, 'generalbox mod_introbox');
 }

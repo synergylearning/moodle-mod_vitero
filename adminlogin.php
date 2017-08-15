@@ -20,12 +20,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/lib.php');
-require_once(dirname(dirname(dirname(__FILE__))) . '/lib/accesslib.php');
-
 global $DB, $PAGE, $CFG, $OUTPUT;
+
+require_once __DIR__.'../../../config.php';
+require_once __DIR__.'/locallib.php';
+require_once __DIR__.'/lib.php';
+require_once $CFG->libdir.'/accesslib.php';
+
 
 $cmid = required_param('cm', PARAM_INT);
 
@@ -52,8 +53,6 @@ if ($sessioncode = vitero_get_my_sessioncode($vitero, VITERO_ROLE_TEAMLEADER, 'v
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('center');
 echo get_string('novmssessioncode', 'vitero');
-echo '<center>'. "\n";
 echo '<input type="button" onclick="self.close();" value="' . get_string('closewindow') . '" />';
-echo '</center>';
 
 echo $OUTPUT->box_end();

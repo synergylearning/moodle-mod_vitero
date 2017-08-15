@@ -147,7 +147,7 @@ function vitero_get_moodle_timezone() {
 function vitero_get_baseurl() {
     $config = get_config('vitero');
     $hostname = trim($config->hostname, '/');
-    if (substr($hostname, 0, 4) != 'http') {
+    if (strpos($hostname, 'http') !== 0) {
         $hostname = 'http://' . $hostname;
     }
     $port = $config->port;
@@ -256,7 +256,7 @@ function vitero_create_user($user) {
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
-    $siteshortname = preg_replace("/[^a-zA-Z]/", "", get_site()->shortname);
+    $siteshortname = preg_replace("/[^a-zA-Z]/", '', get_site()->shortname);
 
     $params = array(
         'createUserRequest' => array(
@@ -337,10 +337,21 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
     $client = singlesoapclient::getclient();
     $context = context_user::instance($moodleuserid);
     $fs = get_file_storage();
-    if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1/.png')) {
-        if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1/.jpg')) {
-            return false;
+    $filename = 'f1';
+
+    // Below code should remain identical to filelib.php file_pluginfile() where $component === 'user'.
+    if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', $filename.'.png')) {
+        if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', $filename.'.jpg')) {
+            if ($filename === 'f3') {
+                if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1.png')) {
+                    $file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1.jpg');
+                }
+            }
         }
+    }
+
+    if (!$file) {
+        return false;
     }
     $image = $file->get_content();
     $params = array(
@@ -840,6 +851,7 @@ function vitero_connection_test() {
     $result = $client->call($wsdl, $method, $params);
     if ($errorcode = $client->getlasterrorcode()) {
         vitero_errorstring($errorcode);
+
         return false;
     }
 
@@ -867,6 +879,5 @@ function vitero_get_admin_loginurl() {
     }
 
     $baseurl = vitero_get_baseurl();
-    $url = $baseurl . '/admin/start.htm?&code=' . $code;
-    return $url;
+    return $baseurl . '/admin/start.htm?&code=' . $code;
 }

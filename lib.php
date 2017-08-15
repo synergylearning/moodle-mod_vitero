@@ -29,14 +29,14 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once('locallib.php');
+require_once __DIR__ . '/locallib.php';
 
 global $CFG;
 
 /** Include eventslib.php */
-require_once($CFG->libdir . '/eventslib.php');
+require_once $CFG->libdir . '/eventslib.php';
 /** Include calendar/lib.php */
-require_once($CFG->dirroot . '/calendar/lib.php');
+require_once $CFG->dirroot . '/calendar/lib.php';
 
 /**
  * VITERO_ROLE_PARTICIPANT - DB role id to represent Vitero parcitipant.
@@ -227,9 +227,9 @@ function vitero_delete_instance($id) {
     $DB->delete_records('vitero', array('id' => $vitero->id));
 
     // Delete meeting, if no other activity links to this.
-    $allmeetings = $DB->get_records('vitero', array('meetingid' => $vitero->meetingid));
+    $allmeetings = $DB->count_records('vitero', array('meetingid' => $vitero->meetingid));
 
-    if (!count($allmeetings)) {
+    if (!$allmeetings) {
         if (!vitero_delete_meeting($vitero)) {
             return false;
         }
@@ -386,7 +386,6 @@ function vitero_scale_used_anywhere($scaleid) {
  * @return void
  */
 function vitero_grade_item_update(stdClass $vitero) {
-    return true;
 }
 
 /**
@@ -400,7 +399,7 @@ function vitero_grade_item_update(stdClass $vitero) {
  */
 function vitero_update_grades(stdClass $vitero, $userid = 0) {
     global $CFG;
-    require_once($CFG->libdir . '/gradelib.php');
+    require_once $CFG->libdir . '/gradelib.php';
 
     /** @example */
     $grades = array(); // populate array of grade objects indexed by userid
@@ -439,7 +438,7 @@ function vitero_get_file_areas($course, $cm, $context) {
  * @return void this should never return to the caller
  */
 function vitero_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload) {
-    return send_file_not_found();
+    send_file_not_found();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

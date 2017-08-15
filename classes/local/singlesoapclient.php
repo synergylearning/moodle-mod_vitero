@@ -43,7 +43,7 @@ class singlesoapclient {
      * @return soapclient
      */
     public static function getclient($alwaysdebug = false) {
-        if (!isset(self::$client) || is_null(self::$client)) {
+        if (null === self::$client) {
             global $CFG;
 
             $config = get_config('vitero');

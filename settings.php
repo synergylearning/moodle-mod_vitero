@@ -48,8 +48,8 @@ if ($ADMIN->fulltree) {
     $url = $CFG->wwwroot . '/mod/vitero/conntest.php';
     $url = htmlentities($url);
     $options = 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=700,height=300';
-    $str = '<center><input type="button" onclick="window.open(\'' . $url . '\', \'\', \'' . $options . '\');" value="' .
-            get_string('testconnection', 'vitero') . '" /></center>';
+    $str = '<input type="button" onclick="window.open(\'' . $url . '\', \'\', \'' . $options . '\');" value="' .
+            get_string('testconnection', 'vitero') . '" />';
 
     $settings->add(new admin_setting_heading('vitero_test', '', $str));
 }

@@ -62,10 +62,10 @@ function xmldb_vitero_upgrade($oldversion) {
         $table = new xmldb_table('vitero_remusers');
 
         // Adding fields to table vitero_remusers.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('viteroid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('lastemail', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL);
+        $table->add_field('viteroid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL);
+        $table->add_field('lastemail', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL);
         $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
         $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
 
@@ -104,8 +104,6 @@ function xmldb_vitero_upgrade($oldversion) {
         // Vitero savepoint reached.
         upgrade_mod_savepoint(true, 2016081900, 'vitero');
     }
-
-
 
     // Final return of upgrade result (true, all went good) to Moodle.
     return true;

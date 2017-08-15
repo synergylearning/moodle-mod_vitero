@@ -53,7 +53,7 @@ class Zend_Soap_Client_Local extends client
      * @param string $wsdl
      * @param array $options
      */
-    function __construct(\SoapServer $server, $wsdl, $options = null)
+    public function __construct(\SoapServer $server, $wsdl, $options = null)
     {
         $this->_server = $server;
 

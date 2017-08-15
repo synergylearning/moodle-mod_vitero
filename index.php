@@ -27,8 +27,8 @@
 
 /// Replace vitero with the name of your module and remove this line
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once __DIR__.'../../../config.php';
+require_once __DIR__.'/lib.php';
 
 global $DB, $OUTPUT, $PAGE;
 
@@ -49,11 +49,16 @@ $PAGE->set_context($coursecontext);
 
 require_course_login($course);
 
-add_to_log($course->id, 'vitero', 'view all', 'index.php?id='.$course->id, '');
-
+// Trigger instances list viewed event.
+$params = array(
+    'context' => context_course::instance($course->id)
+);
+$event = \mod_vitero\event\course_module_instance_list_viewed::create($params);
+$event->add_record_snapshot('course', $course);
+$event->trigger();
 echo $OUTPUT->header();
 
-if (! $viteros = get_all_instances_in_course('vitero', $course)) {
+if (!$viteros = get_all_instances_in_course('vitero', $course)) {
     notice(get_string('noviteros', 'vitero'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
@@ -72,15 +77,15 @@ foreach ($viteros as $vitero) {
     if (!$vitero->visible) {
         $link = html_writer::link(
             new moodle_url('/mod/vitero.php', array('id' => $vitero->coursemodule)),
-            format_string($vitero->name, true),
+            format_string($vitero->name),
             array('class' => 'dimmed'));
     } else {
         $link = html_writer::link(
             new moodle_url('/mod/vitero.php', array('id' => $vitero->coursemodule)),
-            format_string($vitero->name, true));
+            format_string($vitero->name));
     }
 
-    if ($course->format == 'weeks' or $course->format == 'topics') {
+    if ($course->format == 'weeks' || $course->format == 'topics') {
         $table->data[] = array($vitero->section, $link);
     } else {
         $table->data[] = array($link);

@@ -42,7 +42,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class soapclient {
     /** @var zsc\client the soap client */
-    protected $client = null;
+    protected $client;
 
     /** @var string the soap username */
     protected $username = '';
@@ -51,13 +51,13 @@ class soapclient {
     protected $password = '';
 
     /** @var string the soap base url */
-    protected $baseurl = null;
+    protected $baseurl;
 
     /** @var bool whether we're debugging */
     protected $debug = false;
 
     /** @var Exception the last fault thrown by soap client */
-    protected $lastfault = null;
+    protected $lastfault;
 
     /**
      * Creates a SOAP client object.
@@ -105,8 +105,8 @@ class soapclient {
          * xml.
          */
         $authvalues = new \SoapVar($auth, XSD_ANYXML);
-        $header = new \SoapHeader("http://docs.oasis-open.org/wss/2004/01/oasis-" .
-                        "200401-wss-wssecurity-secext-1.0.xsd", "Security", $authvalues,
+        $header = new \SoapHeader('http://docs.oasis-open.org/wss/2004/01/oasis-' .
+                        '200401-wss-wssecurity-secext-1.0.xsd', 'Security', $authvalues,
                         true);
         return $header;
     }
@@ -143,7 +143,7 @@ class soapclient {
      * @return int
      */
     public function getlasterrorcode() {
-        if (is_null($this->lastfault)) {
+        if (null === $this->lastfault) {
             return 0;
         }
         return $this->lastfault->errorcode;

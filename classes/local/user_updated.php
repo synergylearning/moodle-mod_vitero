@@ -56,7 +56,7 @@ class user_updated
             return;
         }
 
-        require_once($CFG->dirroot . '/mod/vitero/locallib.php');
+        require_once $CFG->dirroot . '/mod/vitero/locallib.php';
         vitero_update_remote_details($existing->viteroid, $user);
         vitero_update_remuser($user);
     }

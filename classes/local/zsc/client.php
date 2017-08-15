@@ -790,12 +790,12 @@ class client
      */
     public function setStreamContext($context)
     {
-        if(!is_resource($context) || get_resource_type($context) !== "stream-context") {
+        if(!is_resource($context) || get_resource_type($context) !== 'stream-context') {
             /**
              * @see Zend_Soap_Client_Exception
              */
             throw new \moodle_exception (
-                "Invalid stream context resource given."
+                'Invalid stream context resource given.'
             );
         }
 
@@ -1007,9 +1007,8 @@ class client
         // Perform request as is
         if ($one_way == null) {
             return call_user_func(array($client,'SoapClient::__doRequest'), $request, $location, $action, $version);
-        } else {
-            return call_user_func(array($client,'SoapClient::__doRequest'), $request, $location, $action, $version, $one_way);
         }
+        return call_user_func(array($client,'SoapClient::__doRequest'), $request, $location, $action, $version, $one_way);
     }
 
     /**
