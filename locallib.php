@@ -256,7 +256,7 @@ function vitero_create_user($user) {
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
-    $siteshortname = preg_replace("/[^a-zA-Z]/", '', get_site()->shortname);
+    $siteshortname = preg_replace('/[^a-zA-Z]/', '', get_site()->shortname);
 
     $params = array(
         'createUserRequest' => array(
