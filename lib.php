@@ -33,8 +33,6 @@ require_once __DIR__ . '/locallib.php';
 
 global $CFG;
 
-/** Include eventslib.php */
-require_once $CFG->libdir . '/eventslib.php';
 /** Include calendar/lib.php */
 require_once $CFG->dirroot . '/calendar/lib.php';
 
