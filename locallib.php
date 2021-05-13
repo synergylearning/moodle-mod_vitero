@@ -274,6 +274,11 @@ function vitero_create_user($user) {
     $method = 'createUser';
     $result = $client->call($wsdl, $method, $params);
     if ($errorcode = $client->getlasterrorcode()) {
+        // VIT3-19 / VIT4-13.
+        if ($errorcode == 51) {
+            $user->username . time();
+            vitero_create_user($user);
+        }
         vitero_errorstring($errorcode);
         return false;
     }
