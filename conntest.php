@@ -15,16 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_vitero
- * @author Yair Spielmann, Synergy Learning
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_vitero
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+require_once(__DIR__.'../../../config.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
-require_once __DIR__.'../../../config.php';
-require_once __DIR__.'/locallib.php';
-require_once $CFG->libdir.'/accesslib.php';
+require_once(__DIR__.'/locallib.php');
+require_once($CFG->libdir.'/accesslib.php');
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);

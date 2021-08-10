@@ -22,16 +22,17 @@
  * /admin/index.php
  *
  * @package    mod_vitero
- * @copyright  2017 Yair Spielmann, Synergy Learning
+ * @copyright  2017 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2019030600;      // The current module version (Date: YYYYMMDDXX)
-$plugin->requires  = 2018120300;      // Requires this Moodle version
-$plugin->cron      = 0;               // Period for cron to check this module (secs)
-$plugin->component = 'mod_vitero'; // To check on upgrade, that module sits in correct place
+$plugin->version   = 2019030600;      // The current module version (Date: YYYYMMDDXX).
+$plugin->requires  = 2018120300;      // Requires this Moodle version.
+$plugin->cron      = 0;               // Period for cron to check this module (secs).
+$plugin->component = 'mod_vitero';    // To check on upgrade, that module sits in correct place.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '2.0 (Build: 2016072800)';
 $plugin->dependencies = array();

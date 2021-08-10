@@ -21,7 +21,8 @@
  * logic, should go here. Never include this file from your lib.php!
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -188,9 +189,9 @@ function vitero_time_vitero_to_unix($date) {
 
 function vitero_errorstring($errorid) {
     $errorstring = get_string('errorcode', 'vitero') . ': ' . $errorid;
-    $known_errors = array(2, 3, 4, 51, 52, 53, 54, 101, 102, 103, 151, 152, 153, 302, 303, 304, 305, 306, 451, 452, 501,
+    $knownerrors = array(2, 3, 4, 51, 52, 53, 54, 101, 102, 103, 151, 152, 153, 302, 303, 304, 305, 306, 451, 452, 501,
                           502, 505, 506, 508, 601, 703, 1001);
-    if (in_array($errorid, $known_errors)) {
+    if (in_array($errorid, $knownerrors)) {
         $errorstring .= ': ' . get_string('errorcode' . $errorid, 'vitero');
     }
     throw new moodle_exception($errorstring);
@@ -210,7 +211,7 @@ function vitero_get_my_sessioncode($vitero, $roleid = VITERO_ROLE_PARTICIPANT, $
 
     // Does user exist in Vitero? If not, create.
     if (!$viterouserid = vitero_get_remuserid_by_id($user->id)) {
-        if($viterouserid = vitero_get_remuserid_by_email($user->email)) {
+        if ($viterouserid = vitero_get_remuserid_by_email($user->email)) {
             vitero_save_remuser($user, $viterouserid);
         } else {
             if (!$viterouserid = vitero_create_user($user)) {
@@ -377,7 +378,6 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
  * Get all users for the customer. Returns array of users or false.
  * @return array
  */
-
 function vitero_get_all_users() {
     $client = singlesoapclient::getclient();
     $config = get_config('vitero');
@@ -413,7 +413,6 @@ function vitero_get_all_users() {
  * @param string $email
  * @return bool success
  */
-
 function vitero_get_remuserid_by_email($email) {
     if (!$users = vitero_get_all_users()) {
         return false;
@@ -480,7 +479,6 @@ function vitero_update_remuser($user) {
  * @param string $username
  * @return mixed string|bool
  */
-
 function vitero_get_userid_by_username($username) {
     if (!$users = vitero_get_all_users()) {
         return false;
@@ -500,7 +498,6 @@ function vitero_get_userid_by_username($username) {
  * @param int $teamid - the Vitero team (group) id
  * @return bool success
  */
-
 function vitero_add_user_to_team($viterouserid, $teamid) {
     $client = singlesoapclient::getclient();
 
@@ -527,7 +524,6 @@ function vitero_add_user_to_team($viterouserid, $teamid) {
  * @param int $roleid - the id of the role to assign
  * @return bool success
  */
-
 function vitero_assign_team_role($viterouserid, $teamid, $roleid) {
     $client = singlesoapclient::getclient();
 
@@ -552,7 +548,6 @@ function vitero_assign_team_role($viterouserid, $teamid, $roleid) {
  * Returns a list of available room sizes.
  * @return array
  */
-
 function vitero_get_available_roomsizes() {
     $client = singlesoapclient::getclient();
     $config = get_config('vitero');
@@ -591,7 +586,6 @@ function vitero_get_available_roomsizes() {
  * @param int $meetingid - the Vitero meeting (booking) id
  * @return bool success
  */
-
 function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
     $client = singlesoapclient::getclient();
 
@@ -622,7 +616,6 @@ function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
  * @param int $meetingid - the Vitero meeting (booking) id
  * @return bool success
  */
-
 function vitero_create_vms_sessioncode($viterouserid) {
     $client = singlesoapclient::getclient();
 
@@ -651,7 +644,6 @@ function vitero_create_vms_sessioncode($viterouserid) {
  * @param string $teamname
  * @return bool success
  */
-
 function vitero_create_team($teamname) {
     $client = singlesoapclient::getclient();
     $config = get_config('vitero');
@@ -685,7 +677,6 @@ function vitero_create_team($teamname) {
  * @param string $teamname
  * @return bool success
  */
-
 function vitero_update_team($teamid, $teamname) {
     $client = singlesoapclient::getclient();
 
@@ -712,7 +703,6 @@ function vitero_update_team($teamid, $teamname) {
  * @param int $teamid
  * @return bool success
  */
-
 function vitero_delete_team($teamid) {
     $client = singlesoapclient::getclient();
 
@@ -736,7 +726,6 @@ function vitero_delete_team($teamid) {
  * @param object $vitero
  * @return bool success
  */
-
 function vitero_create_meeting($vitero) {
     $client = singlesoapclient::getclient();
 
@@ -780,7 +769,6 @@ function vitero_create_meeting($vitero) {
  * @param object $vitero
  * @return bool success
  */
-
 function vitero_update_meeting($vitero) {
     $client = singlesoapclient::getclient();
 
@@ -812,7 +800,6 @@ function vitero_update_meeting($vitero) {
  * @param object $vitero
  * @return bool success
  */
-
 function vitero_delete_meeting($vitero) {
     $client = singlesoapclient::getclient();
 
@@ -835,7 +822,6 @@ function vitero_delete_meeting($vitero) {
  * A Vitero connection test.
  * @return bool success
  */
-
 function vitero_connection_test() {
     $client = singlesoapclient::getclient(true);
     $config = get_config('vitero');
@@ -865,7 +851,6 @@ function vitero_connection_test() {
  * Returns a direct login url using a VMS session code.
  * @return string
  */
-
 function vitero_get_admin_loginurl() {
     $config = get_config('vitero');
 

@@ -24,17 +24,17 @@
  * Moodle is performing actions across all modules.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once __DIR__ . '/locallib.php';
+require_once(__DIR__ . '/locallib.php');
 
 global $CFG;
 
-/** Include calendar/lib.php */
-require_once $CFG->dirroot . '/calendar/lib.php';
+require_once($CFG->dirroot . '/calendar/lib.php');
 
 /**
  * VITERO_ROLE_PARTICIPANT - DB role id to represent Vitero parcitipant.
@@ -65,10 +65,14 @@ define('VITERO_ROLE_AUDIENCE', 3);
  */
 function vitero_supports($feature) {
     switch ($feature) {
-        case FEATURE_MOD_INTRO: return true;
-        case FEATURE_BACKUP_MOODLE2: return true;
-        case FEATURE_SHOW_DESCRIPTION: return true;
-        default: return null;
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_SHOW_DESCRIPTION:
+            return true;
+        default:
+            return null;
     }
 }
 
@@ -106,7 +110,8 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
         try {
             vitero_delete_team($vitero->teamid);
         } catch (Exception $e) {
-            // Do nothing. It's more important to report cannot create meeting than cannot delete team.
+            // It's more important to report cannot create meeting than cannot delete team.
+            throw $exception;
         }
         throw $exception;
     }
@@ -115,9 +120,8 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
         return false;
     }
 
-    // Add event to calendar
+    // Add event to calendar.
     $event = new stdClass();
-
     $event->name = $vitero->name;
     $event->description = format_module_intro('vitero', $vitero, $vitero->coursemodule);
     $event->courseid = $vitero->course;
@@ -165,9 +169,12 @@ function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = n
     }
 
     // Update calendar.
-    $param = array('courseid' => $vitero->course, 'instance' =>
-        $vitero->id, 'groupid' => 0,
-        'modulename' => 'vitero');
+    $param = array(
+        'courseid' => $vitero->course,
+        'instance' => $vitero->id,
+        'groupid' => 0,
+        'modulename' => 'vitero'
+    );
     $eventid = $DB->get_field('event', 'id', $param);
     if (!empty($eventid)) {
         $event = new stdClass();
@@ -212,7 +219,7 @@ function vitero_delete_instance($id) {
         return false;
     }
 
-    // Update calendar event
+    // Update calendar event.
     $param = array('courseid' => $vitero->course, 'instance' => $vitero->id,
         'groupid' => 0, 'modulename' => 'vitero');
     $eventid = $DB->get_field('event', 'id', $param);
@@ -276,7 +283,7 @@ function vitero_user_complete($course, $user, $mod, $vitero) {
  * @return boolean
  */
 function vitero_print_recent_activity($course, $viewfullnames, $timestart) {
-    return false;  //  True if anything was printed, otherwise false
+    return false;  // True if anything was printed, otherwise false.
 }
 
 /**
@@ -344,9 +351,7 @@ function vitero_get_extra_capabilities() {
     return array();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Gradebook API                                                              //
-////////////////////////////////////////////////////////////////////////////////
+// Gradebook API.
 
 /**
  * Is a given scale used by the instance of vitero?
@@ -397,17 +402,14 @@ function vitero_grade_item_update(stdClass $vitero) {
  */
 function vitero_update_grades(stdClass $vitero, $userid = 0) {
     global $CFG;
-    require_once $CFG->libdir . '/gradelib.php';
+    require_once($CFG->libdir . '/gradelib.php');
 
-    /** @example */
-    $grades = array(); // populate array of grade objects indexed by userid
+    $grades = array(); // Populate array of grade objects indexed by userid.
 
     grade_update('mod/vitero', $vitero->course, 'mod', 'vitero', $vitero->id, 0, $grades);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// File API                                                                   //
-////////////////////////////////////////////////////////////////////////////////
+// File API.
 
 /**
  * Returns the lists of all browsable file areas within the given module context
@@ -439,9 +441,7 @@ function vitero_pluginfile($course, $cm, $context, $filearea, array $args, $forc
     send_file_not_found();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Navigation API                                                             //
-////////////////////////////////////////////////////////////////////////////////
+// Navigation API.
 
 /**
  * Extends the global navigation tree by adding vitero nodes if there is a relevant content

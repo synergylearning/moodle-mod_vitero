@@ -22,7 +22,8 @@
  * /admin/index.php
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -56,7 +57,7 @@ class user_updated
             return;
         }
 
-        require_once $CFG->dirroot . '/mod/vitero/locallib.php';
+        require_once($CFG->dirroot . '/mod/vitero/locallib.php');
         vitero_update_remote_details($existing->viteroid, $user);
         vitero_update_remuser($user);
     }

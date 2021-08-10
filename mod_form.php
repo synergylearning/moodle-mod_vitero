@@ -21,14 +21,15 @@
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-require_once $CFG->dirroot . '/course/moodleform_mod.php';
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
 /**
  * Module instance settings form
@@ -43,7 +44,6 @@ class mod_vitero_mod_form extends moodleform_mod {
 
         $mform = $this->_form;
 
-        //-------------------------------------------------------------------------------
         // Adding the "general" fieldset, where all the common settings are showed.
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
@@ -61,7 +61,6 @@ class mod_vitero_mod_form extends moodleform_mod {
         // Adding the standard "intro" and "introformat" fields.
         $this->standard_intro_elements();
 
-        //-------------------------------------------------------------------------------
         // Adding the rest of vitero settings, spreeading all them into this fieldset
         // or adding more fieldsets ('header' elements) if needed for better logic.
 
@@ -88,22 +87,21 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform->addElement('button', 'adminlogin', get_string('adminlogin', 'vitero'));
         $mform->addElement('static', 'nologinhint', '',  nl2br(s(get_string('nologinhint', 'vitero'))));
 
-        //-------------------------------------------------------------------------------
         // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();
-        //-------------------------------------------------------------------------------
+
         // Add standard buttons, common to all modules.
         $this->add_action_buttons();
     }
 
-    public function set_data($default_values) {
+    public function set_data($default) {
         global $CFG;
 
         $mform = $this->_form;
         // Load or freeze room size.
-        if ($default_values->instance) {
+        if ($default->instance) {
             $roomsizes = array();
-            $roomsizes[$default_values->roomsize] = $default_values->roomsize;
+            $roomsizes[$default->roomsize] = $default->roomsize;
             $roomsize = &$mform->getElement('roomsize');
             $roomsize->loadArray($roomsizes);
             $mform->freeze(array('roomsize'));
@@ -114,16 +112,16 @@ class mod_vitero_mod_form extends moodleform_mod {
         }
 
         // Freeze entire form if meeting is in the past.
-        if (isset($default_values->endtime, $default_values->endbuffer) && $default_values->endtime > 0) {
-            if ($default_values->endtime + (int)$default_values->endbuffer * 60 < time()) {
+        if (isset($default->endtime, $default->endbuffer) && $default->endtime > 0) {
+            if ($default->endtime + (int)$default->endbuffer * 60 < time()) {
                 $mform->freeze();
             }
         }
 
         // Give id to administration button (or hide if activity hasn't been created yet).
-        if ($default_values->coursemodule) {
+        if ($default->coursemodule) {
             $adminbutton = $mform->getElement('adminlogin');
-            $url = $CFG->wwwroot . '/mod/vitero/adminlogin.php?cm=' . $default_values->coursemodule;
+            $url = $CFG->wwwroot . '/mod/vitero/adminlogin.php?cm=' . $default->coursemodule;
             $url = htmlentities($url);
             $btnstr = 'onclick="window.open(\'' . $url . '\', \'\', \'\');"';
             $adminbutton->updateAttributes($btnstr);
@@ -132,7 +130,7 @@ class mod_vitero_mod_form extends moodleform_mod {
             $mform->removeElement('adminlogin');
         }
 
-        parent::set_data($default_values);
+        parent::set_data($default);
     }
 
     public function validation($data, $files) {

@@ -23,7 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once $CFG->dirroot . '/mod/vitero/backup/moodle2/backup_vitero_stepslib.php'; // Because it exists (must)
+require_once($CFG->dirroot . '/mod/vitero/backup/moodle2/backup_vitero_stepslib.php'); // Because it exists (must).
 
 /**
  * vitero backup task that provides all the settings and steps to perform one
@@ -35,7 +35,7 @@ class backup_vitero_activity_task extends backup_activity_task {
      * Define (add) particular settings this activity can have
      */
     protected function define_my_settings() {
-        // No particular settings for this activity
+        // No particular settings for this activity.
     }
 
     /**
@@ -54,13 +54,13 @@ class backup_vitero_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot, '/');
 
-        // Link to the list of vitero
-        $search='/('.$base."\/mod\/vitero\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@viteroINDEX*$2@$', $content);
+        // Link to the list of vitero.
+        $search = '/('.$base."\/mod\/vitero\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@viteroINDEX*$2@$', $content);
 
-        // Link to choice view by moduleid
-        $search='/('.$base."\/mod\/vitero\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@viteroVIEWBYID*$2@$', $content);
+        // Link to choice view by moduleid.
+        $search = '/('.$base."\/mod\/vitero\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@viteroVIEWBYID*$2@$', $content);
 
         return $content;
     }

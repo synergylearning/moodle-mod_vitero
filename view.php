@@ -25,10 +25,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/// (Replace vitero with the name of your module and remove this line)
-
-require_once __DIR__.'../../../config.php';
-require_once __DIR__.'/lib.php';
+require_once(__DIR__.'../../../config.php');
+require_once(__DIR__.'/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or.
 $n  = optional_param('n', 0, PARAM_INT);  // Vitero instance ID - it should be named as the first character of the module.

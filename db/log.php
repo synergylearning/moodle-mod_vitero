@@ -22,7 +22,8 @@
  * in the previous 1.9 NEWMODULE.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,8 +32,8 @@ defined('MOODLE_INTERNAL') || die();
 global $DB;
 
 $logs = array(
-    array('module'=>'vitero', 'action'=>'add', 'mtable'=>'vitero', 'field'=>'name'),
-    array('module'=>'vitero', 'action'=>'update', 'mtable'=>'vitero', 'field'=>'name'),
-    array('module'=>'vitero', 'action'=>'view', 'mtable'=>'vitero', 'field'=>'name'),
-    array('module'=>'vitero', 'action'=>'view all', 'mtable'=>'vitero', 'field'=>'name')
+    array('module' => 'vitero', 'action' => 'add', 'mtable' => 'vitero', 'field' => 'name'),
+    array('module' => 'vitero', 'action' => 'update', 'mtable' => 'vitero', 'field' => 'name'),
+    array('module' => 'vitero', 'action' => 'view', 'mtable' => 'vitero', 'field' => 'name'),
+    array('module' => 'vitero', 'action' => 'view all', 'mtable' => 'vitero', 'field' => 'name')
 );
