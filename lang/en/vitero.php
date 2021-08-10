@@ -22,7 +22,8 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,9 +36,9 @@ $string['adminusername'] = 'Administrator Username';
 $string['adminusername_desc'] = 'Vitero username of user with permission to add sessions, users etc.';
 $string['alreadyover'] = 'This appointment is already over.';
 $string['appointmentfields'] = 'Appointment Fields';
-$string['cannotobtainsessioncode'] = 'Cannot obtain session code';
 $string['cannotcreatemeeting'] = 'Cannot create meeting';
 $string['cannotcreateteam'] = 'Cannot create team';
+$string['cannotobtainsessioncode'] = 'Cannot obtain session code';
 $string['clickhereformeeting'] = 'Click here to enter the session';
 $string['connectiontest'] = 'Connection Test';
 $string['conntest_failed'] = 'Connection test failed.';
@@ -50,24 +51,21 @@ $string['customername_desc'] = 'Customer name';
 $string['endbuffer'] = 'End Buffer (minutes)';
 $string['endtime'] = 'End Time';
 $string['errorcode'] = 'Vitero Error Code';
-$string['errorcode2'] = 'Unknown Error';
-$string['errorcode3'] = 'Internal Error';
-$string['errorcode4'] = 'Insufficient Rights';
-$string['errorcode51'] = 'Another User With This Name Already Exists';
-$string['errorcode52'] = 'Another User With This Email Already Exists';
-$string['errorcode53'] = 'The User Doesn´t Exist In The System';
-$string['errorcode54'] = 'A User Must Be Attached To At Least One Customer';
+$string['errorcode1001'] = 'Session Code Does Not Exist';
 $string['errorcode101'] = 'The Customer Doesn´t Exist In The System';
 $string['errorcode102'] = 'The Shortname Of A New Customer Already Exists';
 $string['errorcode103'] = 'The User Is Not Attached To The Customer';
 $string['errorcode151'] = 'The Group Doesn´t Exist In The System';
 $string['errorcode152'] = 'The Name And Customer Of A New Group Already Exists';
 $string['errorcode153'] = 'The Relationship Between The User And The Group Doesn’T Exist';
+$string['errorcode2'] = 'Unknown Error';
+$string['errorcode3'] = 'Internal Error';
 $string['errorcode302'] = 'Invalid List-Index';
 $string['errorcode303'] = 'The Value Of An Attribute Is Not Valid';
 $string['errorcode304'] = 'Invalid Time Zone';
 $string['errorcode305'] = 'Invalid Locale';
 $string['errorcode306'] = 'No Monitoring Module';
+$string['errorcode4'] = 'Insufficient Rights';
 $string['errorcode451'] = 'Filesize Exceeded The File You Try To Upload Is Too Large';
 $string['errorcode452'] = 'Filetype Not Allowed';
 $string['errorcode501'] = 'Booking Collision - the licence is exceeded (the new booking collides with existing bookings and the licence does not allow another booking in this time period)';
@@ -76,9 +74,12 @@ $string['errorcode505'] = 'Booking In The Past You Create A Booking In The Past'
 $string['errorcode506'] = 'Booking Does Not Exist';
 $string['errorcode507'] = 'Group is locked (event in progress), and the booking for this group can only be extended';
 $string['errorcode508'] = 'No Rooms Available';
+$string['errorcode51'] = 'Another User With This Name Already Exists';
+$string['errorcode52'] = 'Another User With This Email Already Exists';
+$string['errorcode53'] = 'The User Doesn´t Exist In The System';
+$string['errorcode54'] = 'A User Must Be Attached To At Least One Customer';
 $string['errorcode601'] = 'Node Not Found';
 $string['errorcode703'] = 'Customer Expired';
-$string['errorcode1001'] = 'Session Code Does Not Exist';
 $string['errorduplicate'] = 'Duplicating Vitero sessions is currently not supported. Please create a new session.';
 $string['greaterstarttime'] = 'Start time cannot be greater than ending time';
 $string['hostname'] = 'Host Name';
@@ -108,6 +109,7 @@ $string['privacy:metadata:vitero_remusers:viteroid'] = 'The ID of user account o
 $string['roomsize'] = 'Room Size';
 $string['root'] = 'Vitero Root';
 $string['root_desc'] = 'Root path of Vitero in the host (optional)';
+$string['specifycoursemodule'] = 'You must specify a course_module ID or an instance ID.';
 $string['startbuffer'] = 'Start Buffer (minutes)';
 $string['starttime'] = 'Start Time';
 $string['syncavatars'] = 'Synchronise Avatars';

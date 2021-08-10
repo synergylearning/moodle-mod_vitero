@@ -306,7 +306,7 @@ class client
         $options['exceptions']     = $this->getExceptions();
 
         foreach ($options as $key => $value) {
-            /*
+            /**
              * ugly hack as I don't know if checking for '=== null'
              * breaks some other option
              */

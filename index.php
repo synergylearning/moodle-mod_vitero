@@ -21,18 +21,17 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/// Replace vitero with the name of your module and remove this line
-
-require_once __DIR__.'../../../config.php';
-require_once __DIR__.'/lib.php';
+require_once(__DIR__.'../../../config.php');
+require_once(__DIR__.'/lib.php');
 
 global $DB, $OUTPUT, $PAGE;
 
-$id = required_param('id', PARAM_INT);   // course
+$id = required_param('id', PARAM_INT); // Course ID.
 
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 

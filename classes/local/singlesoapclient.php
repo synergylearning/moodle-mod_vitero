@@ -18,7 +18,8 @@
  * The mod_vitero single soap client.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,8 +27,9 @@ namespace mod_vitero\local;
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * A single (static) SOAP client.
+ *
  * @package    mod_vitero
  * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -37,7 +39,7 @@ class singlesoapclient {
     /** @var soapclient the soap client container */
     private static $client;
 
-    /*
+    /**
      * Returns the SOAP client, initialises if needed.
      * @param bool $alwaysdebug
      * @return soapclient
@@ -57,7 +59,7 @@ class singlesoapclient {
         return self::$client;
     }
 
-    /*
+    /**
      * Refreshes the client.
      * @return void
      */

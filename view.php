@@ -25,10 +25,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/// (Replace vitero with the name of your module and remove this line)
-
-require_once __DIR__.'../../../config.php';
-require_once __DIR__.'/lib.php';
+require_once(__DIR__.'../../../config.php');
+require_once(__DIR__.'/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or.
 $n  = optional_param('n', 0, PARAM_INT);  // Vitero instance ID - it should be named as the first character of the module.
@@ -42,7 +40,7 @@ if ($id) {
     $course  = $DB->get_record('course', array('id' => $vitero->course), '*', MUST_EXIST);
     $cm      = get_coursemodule_from_instance('vitero', $vitero->id, $course->id, false, MUST_EXIST);
 } else {
-    print_error('You must specify a course_module ID or an instance ID');
+    throw new \moodle_exception('specifycoursemodule', 'vitero');
 }
 
 $context = context_module::instance($cm->id);
@@ -95,7 +93,7 @@ if (has_capability('mod/vitero:participant', $context)
     } else {
         // Get session code.
         if (!$sessioncode = vitero_get_my_sessioncode($vitero, $roleassign)) {
-            print_error('cannotobtainsessioncode', 'vitero');
+            throw new \moodle_exception('cannotobtainsessioncode', 'vitero');
         }
         $baseurl = vitero_get_baseurl();
         $fullurl = new moodle_url($baseurl.'/start.htm', array('sessionCode' => $sessioncode));

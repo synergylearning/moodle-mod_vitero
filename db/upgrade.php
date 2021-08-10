@@ -25,7 +25,8 @@
  * here will all be database-neutral, using the functions defined in DLL libraries.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -40,14 +41,14 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_vitero_upgrade($oldversion) {
     global $DB;
 
-    $dbman = $DB->get_manager(); // loads ddl manager and xmldb classes
+    $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
 
     if ($oldversion < 2013021400) {
 
         // Define table vitero_attendees to be dropped.
         $table = new xmldb_table('vitero_attendees');
 
-        // Conditionally launch drop table for vitero_attendees
+        // Conditionally launch drop table for vitero_attendees.
         if ($dbman->table_exists($table)) {
             $dbman->drop_table($table);
         }
@@ -95,7 +96,7 @@ function xmldb_vitero_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        
+
         // Conditionally launch add field lastlastname.
         $field = new xmldb_field('lastlastname', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null, 'lastfirstname');
         if (!$dbman->field_exists($table, $field)) {

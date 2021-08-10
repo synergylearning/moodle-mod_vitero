@@ -22,7 +22,8 @@
  * /admin/index.php
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,8 +31,16 @@ namespace mod_vitero\local;
 
 defined('MOODLE_INTERNAL') || die();
 
-class user_deleted
-{
+/**
+ * User deleted event observer.
+ */
+class user_deleted {
+
+    /**
+     * Delete vetero users on user delete.
+     *
+     * @param  \core\event\user_deleted $event Deleted user event.
+     */
     public static function observe_user_deleted(\core\event\user_deleted $event) {
         global $DB;
 

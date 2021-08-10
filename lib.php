@@ -24,17 +24,17 @@
  * Moodle is performing actions across all modules.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann, Synergy Learning
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once __DIR__ . '/locallib.php';
+require_once(__DIR__ . '/locallib.php');
 
 global $CFG;
 
-/** Include calendar/lib.php */
-require_once $CFG->dirroot . '/calendar/lib.php';
+require_once($CFG->dirroot . '/calendar/lib.php');
 
 /**
  * VITERO_ROLE_PARTICIPANT - DB role id to represent Vitero parcitipant.
@@ -65,10 +65,14 @@ define('VITERO_ROLE_AUDIENCE', 3);
  */
 function vitero_supports($feature) {
     switch ($feature) {
-        case FEATURE_MOD_INTRO: return true;
-        case FEATURE_BACKUP_MOODLE2: return true;
-        case FEATURE_SHOW_DESCRIPTION: return true;
-        default: return null;
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_SHOW_DESCRIPTION:
+            return true;
+        default:
+            return null;
     }
 }
 
@@ -80,8 +84,8 @@ function vitero_supports($feature) {
  * will create a new instance and return the id number
  * of the new instance.
  *
- * @param object $vitero An object from the form in mod_form.php
- * @param mod_vitero_mod_form $mform
+ * @param  stdClass $vitero An object from the form in mod_form.php
+ * @param  mod_vitero_mod_form|null $mform
  * @return int The id of the newly inserted vitero record
  */
 function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null) {
@@ -106,7 +110,8 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
         try {
             vitero_delete_team($vitero->teamid);
         } catch (Exception $e) {
-            // Do nothing. It's more important to report cannot create meeting than cannot delete team.
+            // It's more important to report cannot create meeting than cannot delete team.
+            throw $exception;
         }
         throw $exception;
     }
@@ -115,9 +120,8 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
         return false;
     }
 
-    // Add event to calendar
+    // Add event to calendar.
     $event = new stdClass();
-
     $event->name = $vitero->name;
     $event->description = format_module_intro('vitero', $vitero, $vitero->coursemodule);
     $event->courseid = $vitero->course;
@@ -141,8 +145,8 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
  * (defined by the form in mod_form.php) this function
  * will update an existing instance with new data.
  *
- * @param object $vitero An object from the form in mod_form.php
- * @param mod_vitero_mod_form $mform
+ * @param  stdClass $vitero An object from the form in mod_form.php
+ * @param  mod_vitero_mod_form|null $mform
  * @return boolean Success/Fail
  */
 function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = null) {
@@ -165,9 +169,12 @@ function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = n
     }
 
     // Update calendar.
-    $param = array('courseid' => $vitero->course, 'instance' =>
-        $vitero->id, 'groupid' => 0,
-        'modulename' => 'vitero');
+    $param = array(
+        'courseid' => $vitero->course,
+        'instance' => $vitero->id,
+        'groupid' => 0,
+        'modulename' => 'vitero'
+    );
     $eventid = $DB->get_field('event', 'id', $param);
     if (!empty($eventid)) {
         $event = new stdClass();
@@ -212,7 +219,7 @@ function vitero_delete_instance($id) {
         return false;
     }
 
-    // Update calendar event
+    // Update calendar event.
     $param = array('courseid' => $vitero->course, 'instance' => $vitero->id,
         'groupid' => 0, 'modulename' => 'vitero');
     $eventid = $DB->get_field('event', 'id', $param);
@@ -246,6 +253,18 @@ function vitero_delete_instance($id) {
  *
  * @return stdClass|null
  */
+
+/**
+ * Returns a small object with summary information about what a
+ * user has done with a given particular instance of this module
+ * Used for user activity reports.
+ *
+ * @param  object $course
+ * @param  object $user
+ * @param  object $mod
+ * @param  object $vitero
+ * @return object;
+ */
 function vitero_user_outline($course, $user, $mod, $vitero) {
 
     $return = new stdClass();
@@ -273,10 +292,13 @@ function vitero_user_complete($course, $user, $mod, $vitero) {
  * that has occurred in vitero activities and print it out.
  * Return true if there was output, or false is there was none.
  *
- * @return boolean
+ * @param  object $course
+ * @param  bool   $viewfullnames
+ * @param  int    $timestart
+ * @return bool
  */
 function vitero_print_recent_activity($course, $viewfullnames, $timestart) {
-    return false;  //  True if anything was printed, otherwise false
+    return false;  // True if anything was printed, otherwise false.
 }
 
 /**
@@ -284,7 +306,7 @@ function vitero_print_recent_activity($course, $viewfullnames, $timestart) {
  *
  * This callback function is supposed to populate the passed array with
  * custom activity records. These records are then rendered into HTML via
- * {@link vitero_print_recent_mod_activity()}.
+ * {@see vitero_print_recent_mod_activity()}.
  *
  * @param array $activities sequentially indexed array of objects with the 'cmid' property
  * @param int $index the index in the $activities to use for the next record
@@ -301,6 +323,12 @@ function vitero_get_recent_mod_activity(&$activities, &$index, $timestart, $cour
 
 /**
  * Prints single activity item prepared by {@see vitero_get_recent_mod_activity()}
+ *
+ * @param int $activity
+ * @param int $courseid
+ * @param string $detail
+ * @param array $modnames
+ * @param bool $viewfullnames
  * @return void
  */
 function vitero_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
@@ -337,16 +365,13 @@ function vitero_get_participants($viteroid) {
 /**
  * Returns all other caps used in the module
  *
- * @example return array('moodle/site:accessallgroups');
  * @return array
  */
 function vitero_get_extra_capabilities() {
     return array();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Gradebook API                                                              //
-////////////////////////////////////////////////////////////////////////////////
+// Gradebook API.
 
 /**
  * Is a given scale used by the instance of vitero?
@@ -357,6 +382,7 @@ function vitero_get_extra_capabilities() {
  * as reference.
  *
  * @param int $viteroid ID of an instance of this module
+ * @param int $scaleid ID of scale
  * @return bool true if the scale is used by the given vitero instance
  */
 function vitero_scale_used($viteroid, $scaleid) {
@@ -368,7 +394,7 @@ function vitero_scale_used($viteroid, $scaleid) {
  *
  * This is used to find out if scale used anywhere.
  *
- * @param $scaleid int
+ * @param int $scaleid int
  * @return boolean true if the scale is used by any vitero instance
  */
 function vitero_scale_used_anywhere($scaleid) {
@@ -397,23 +423,20 @@ function vitero_grade_item_update(stdClass $vitero) {
  */
 function vitero_update_grades(stdClass $vitero, $userid = 0) {
     global $CFG;
-    require_once $CFG->libdir . '/gradelib.php';
+    require_once($CFG->libdir . '/gradelib.php');
 
-    /** @example */
-    $grades = array(); // populate array of grade objects indexed by userid
+    $grades = array(); // Populate array of grade objects indexed by userid.
 
     grade_update('mod/vitero', $vitero->course, 'mod', 'vitero', $vitero->id, 0, $grades);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// File API                                                                   //
-////////////////////////////////////////////////////////////////////////////////
+// File API.
 
 /**
  * Returns the lists of all browsable file areas within the given module context
  *
  * The file area 'intro' for the activity introduction field is added automatically
- * by {@link file_browser::get_file_info_context_module()}
+ * by {@see file_browser::get_file_info_context_module()}
  *
  * @param stdClass $course
  * @param stdClass $cm
@@ -439,19 +462,18 @@ function vitero_pluginfile($course, $cm, $context, $filearea, array $args, $forc
     send_file_not_found();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Navigation API                                                             //
-////////////////////////////////////////////////////////////////////////////////
+// Navigation API.
 
 /**
  * Extends the global navigation tree by adding vitero nodes if there is a relevant content
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
- * @param navigation_node $navref An object representing the navigation tree node of the vitero module instance
- * @param stdClass $course
- * @param stdClass $module
- * @param cm_info $cm
+ * @param  navigation_node $navref An object representing the navigation tree node of the vitero module instance
+ * @param  stdclass        $course
+ * @param  stdclass        $module
+ * @param  cm_info         $cm
+ * @return void
  */
 function vitero_extend_navigation(navigation_node $navref, stdclass $course, stdclass $module, cm_info $cm) {
 
@@ -463,8 +485,8 @@ function vitero_extend_navigation(navigation_node $navref, stdclass $course, std
  * This function is called when the context for the page is a vitero module. This is not called by AJAX
  * so it is safe to rely on the $PAGE.
  *
- * @param settings_navigation $settingsnav {@link settings_navigation}
- * @param navigation_node $viteronode {@link navigation_node}
+ * @param settings_navigation $settingsnav {@see settings_navigation}
+ * @param navigation_node $viteronode {@see navigation_node}
  */
 function vitero_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $viteronode=null) {
 

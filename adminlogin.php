@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_vitero
- * @author Yair Spielmann, Synergy Learning
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Admin login page.
+ *
+ * @package    mod_vitero
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+require_once(__DIR__.'../../../config.php');
 
 global $DB, $PAGE, $CFG, $OUTPUT;
 
-require_once __DIR__.'../../../config.php';
-require_once __DIR__.'/locallib.php';
-require_once __DIR__.'/lib.php';
-require_once $CFG->libdir.'/accesslib.php';
+require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/lib.php');
+require_once($CFG->libdir.'/accesslib.php');
 
 
 $cmid = required_param('cm', PARAM_INT);

@@ -18,7 +18,8 @@
  * The mod_vitero course module viewed event.
  *
  * @package    mod_vitero
- * @copyright  2016 Yair Spielmann
+ * @copyright  2016 Synergy Learning
+ * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -47,6 +48,11 @@ class course_module_viewed extends \core\event\course_module_viewed {
         $this->data['objecttable'] = 'vitero';
     }
 
+    /**
+     * get_objectid_mapping
+     *
+     * @return array
+     */
     public static function get_objectid_mapping() {
         return array('db' => 'vitero', 'restore' => 'vitero');
     }

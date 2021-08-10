@@ -15,15 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package moodlecore
- * @subpackage backup-moodle2
- * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Define all the restore steps that will be used by the restore_vitero_activity_task.
+ *
+ * @package    mod_vitero
+ * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Define all the restore steps that will be used by the restore_vitero_activity_task
- */
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Structure step to restore one vitero activity
@@ -31,17 +30,23 @@
  */
 class restore_vitero_activity_structure_step extends restore_activity_structure_step {
 
+    /**
+     * define_structure
+     * @return object Paths wrapped into standard activity structure.
+     */
     protected function define_structure() {
 
         $paths = array();
         $paths[] = new restore_path_element('vitero', '/activity/vitero');
 
-        // Return the paths wrapped into standard activity structure
+        // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
     }
 
-    /*
+    /**
      * Process vitero data.
+     *
+     * @param array $data
      */
     protected function process_vitero($data) {
         global $DB;
@@ -57,8 +62,12 @@ class restore_vitero_activity_structure_step extends restore_activity_structure_
         $this->apply_activity_instance($newitemid);
     }
 
+    /**
+     * after_execute
+     *
+     * Add vitero related files, no need to match by itemname (just internally handled context).
+     */
     protected function after_execute() {
-        // Add vitero related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_vitero', 'intro', null);
         $this->add_related_files('mod_vitero', 'content', null);
     }
