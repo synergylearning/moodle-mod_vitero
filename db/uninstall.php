@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @see uninstall_plugin()
+ * Uninstallation tasks.
  *
  * @package    mod_vitero
  * @copyright  2016 Synergy Learning

@@ -106,6 +106,12 @@ class provider implements
         $userlist->add_from_sql('userid', $sql, []);
     }
 
+    /**
+     * includes_system_context
+     *
+     * @param  approved_contextlist $contextlist
+     * @return bool
+     */
     private static function includes_system_context(approved_contextlist $contextlist) {
         foreach ($contextlist->get_contexts() as $context) {
             if (is_a($context, \context_system::class)) {

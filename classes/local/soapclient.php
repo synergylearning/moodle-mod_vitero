@@ -35,12 +35,10 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * SOAP client suited for the Vitero server.
- * @package    mod
- * @subpackage vitero
+ * @package    mod_vitero
  * @copyright  2016 Yair Spielmann, Synergy Learning
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class soapclient {
     /** @var zsc\client the soap client */
     protected $client;
@@ -65,8 +63,8 @@ class soapclient {
      * @param string $baseurl
      * @param string $username
      * @param string $password
+     * @param bool $debug
      */
-
     public function __construct($baseurl, $username, $password, $debug = false) {
         $this->baseurl = trim($baseurl, '/');
         $this->username = $username;
@@ -81,8 +79,11 @@ class soapclient {
 
     /**
      * Create a SOAP header that matches Vitero's WSS secutiry standards
+     *
+     * @param  string $username
+     * @param  string $password
+     * @return \SoapHeader
      */
-
     private function wssecurity_header($username, $password) {
         $timestamp = gmdate('Y-m-d\TH:i:s\Z');
         $nonce = mt_rand();
@@ -118,7 +119,6 @@ class soapclient {
      * @param string $method
      * @param array $params
      */
-
     public function call($wsdlname, $method, $params = array()) {
         $this->lastfault = null;
         $wwssheader = $this->wssecurity_header($this->username, $this->password);
@@ -152,10 +152,9 @@ class soapclient {
 
     /**
      * Returns an object with errorcode and faulstring from a soap fault envelope.
-     * @param string xml
+     * @param  string $xml
      * @return object
      */
-
     private function get_soapfault($xml) {
         try {
             $soapfault = new \stdClass();
@@ -190,5 +189,4 @@ class soapclient {
 
         return $soapfault;
     }
-
 }

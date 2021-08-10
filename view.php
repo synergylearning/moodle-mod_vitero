@@ -40,7 +40,7 @@ if ($id) {
     $course  = $DB->get_record('course', array('id' => $vitero->course), '*', MUST_EXIST);
     $cm      = get_coursemodule_from_instance('vitero', $vitero->id, $course->id, false, MUST_EXIST);
 } else {
-    print_error('You must specify a course_module ID or an instance ID');
+    throw new \moodle_exception('specifycoursemodule', 'vitero');
 }
 
 $context = context_module::instance($cm->id);
@@ -93,7 +93,7 @@ if (has_capability('mod/vitero:participant', $context)
     } else {
         // Get session code.
         if (!$sessioncode = vitero_get_my_sessioncode($vitero, $roleassign)) {
-            print_error('cannotobtainsessioncode', 'vitero');
+            throw new \moodle_exception('cannotobtainsessioncode', 'vitero');
         }
         $baseurl = vitero_get_baseurl();
         $fullurl = new moodle_url($baseurl.'/start.htm', array('sessionCode' => $sessioncode));

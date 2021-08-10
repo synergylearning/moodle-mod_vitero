@@ -84,8 +84,8 @@ function vitero_supports($feature) {
  * will create a new instance and return the id number
  * of the new instance.
  *
- * @param object $vitero An object from the form in mod_form.php
- * @param mod_vitero_mod_form $mform
+ * @param  stdClass $vitero An object from the form in mod_form.php
+ * @param  mod_vitero_mod_form|null $mform
  * @return int The id of the newly inserted vitero record
  */
 function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null) {
@@ -145,8 +145,8 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
  * (defined by the form in mod_form.php) this function
  * will update an existing instance with new data.
  *
- * @param object $vitero An object from the form in mod_form.php
- * @param mod_vitero_mod_form $mform
+ * @param  stdClass $vitero An object from the form in mod_form.php
+ * @param  mod_vitero_mod_form|null $mform
  * @return boolean Success/Fail
  */
 function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = null) {
@@ -253,6 +253,18 @@ function vitero_delete_instance($id) {
  *
  * @return stdClass|null
  */
+
+/**
+ * Returns a small object with summary information about what a
+ * user has done with a given particular instance of this module
+ * Used for user activity reports.
+ *
+ * @param  object $course
+ * @param  object $user
+ * @param  object $mod
+ * @param  object $vitero
+ * @return object;
+ */
 function vitero_user_outline($course, $user, $mod, $vitero) {
 
     $return = new stdClass();
@@ -280,7 +292,10 @@ function vitero_user_complete($course, $user, $mod, $vitero) {
  * that has occurred in vitero activities and print it out.
  * Return true if there was output, or false is there was none.
  *
- * @return boolean
+ * @param  object $course
+ * @param  bool   $viewfullnames
+ * @param  int    $timestart
+ * @return bool
  */
 function vitero_print_recent_activity($course, $viewfullnames, $timestart) {
     return false;  // True if anything was printed, otherwise false.
@@ -291,7 +306,7 @@ function vitero_print_recent_activity($course, $viewfullnames, $timestart) {
  *
  * This callback function is supposed to populate the passed array with
  * custom activity records. These records are then rendered into HTML via
- * {@link vitero_print_recent_mod_activity()}.
+ * {@see vitero_print_recent_mod_activity()}.
  *
  * @param array $activities sequentially indexed array of objects with the 'cmid' property
  * @param int $index the index in the $activities to use for the next record
@@ -308,6 +323,12 @@ function vitero_get_recent_mod_activity(&$activities, &$index, $timestart, $cour
 
 /**
  * Prints single activity item prepared by {@see vitero_get_recent_mod_activity()}
+ *
+ * @param int $activity
+ * @param int $courseid
+ * @param string $detail
+ * @param array $modnames
+ * @param bool $viewfullnames
  * @return void
  */
 function vitero_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
@@ -344,7 +365,6 @@ function vitero_get_participants($viteroid) {
 /**
  * Returns all other caps used in the module
  *
- * @example return array('moodle/site:accessallgroups');
  * @return array
  */
 function vitero_get_extra_capabilities() {
@@ -362,6 +382,7 @@ function vitero_get_extra_capabilities() {
  * as reference.
  *
  * @param int $viteroid ID of an instance of this module
+ * @param int $scaleid ID of scale
  * @return bool true if the scale is used by the given vitero instance
  */
 function vitero_scale_used($viteroid, $scaleid) {
@@ -373,7 +394,7 @@ function vitero_scale_used($viteroid, $scaleid) {
  *
  * This is used to find out if scale used anywhere.
  *
- * @param $scaleid int
+ * @param int $scaleid int
  * @return boolean true if the scale is used by any vitero instance
  */
 function vitero_scale_used_anywhere($scaleid) {
@@ -415,7 +436,7 @@ function vitero_update_grades(stdClass $vitero, $userid = 0) {
  * Returns the lists of all browsable file areas within the given module context
  *
  * The file area 'intro' for the activity introduction field is added automatically
- * by {@link file_browser::get_file_info_context_module()}
+ * by {@see file_browser::get_file_info_context_module()}
  *
  * @param stdClass $course
  * @param stdClass $cm
@@ -448,10 +469,11 @@ function vitero_pluginfile($course, $cm, $context, $filearea, array $args, $forc
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
- * @param navigation_node $navref An object representing the navigation tree node of the vitero module instance
- * @param stdClass $course
- * @param stdClass $module
- * @param cm_info $cm
+ * @param  navigation_node $navref An object representing the navigation tree node of the vitero module instance
+ * @param  stdclass        $course
+ * @param  stdclass        $module
+ * @param  cm_info         $cm
+ * @return void
  */
 function vitero_extend_navigation(navigation_node $navref, stdclass $course, stdclass $module, cm_info $cm) {
 
@@ -463,8 +485,8 @@ function vitero_extend_navigation(navigation_node $navref, stdclass $course, std
  * This function is called when the context for the page is a vitero module. This is not called by AJAX
  * so it is safe to rely on the $PAGE.
  *
- * @param settings_navigation $settingsnav {@link settings_navigation}
- * @param navigation_node $viteronode {@link navigation_node}
+ * @param settings_navigation $settingsnav {@see settings_navigation}
+ * @param navigation_node $viteronode {@see navigation_node}
  */
 function vitero_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $viteronode=null) {
 

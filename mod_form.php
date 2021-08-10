@@ -94,6 +94,11 @@ class mod_vitero_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
 
+    /**
+     * Set the form data.
+     *
+     * @param object $default data.
+     */
     public function set_data($default) {
         global $CFG;
 
@@ -133,6 +138,13 @@ class mod_vitero_mod_form extends moodleform_mod {
         parent::set_data($default);
     }
 
+    /**
+     * Validation
+     *
+     * @param  array $data
+     * @param  array $files
+     * @return array $errors
+     */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 

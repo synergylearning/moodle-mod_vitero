@@ -109,6 +109,7 @@ $string['privacy:metadata:vitero_remusers:viteroid'] = 'The ID of user account o
 $string['roomsize'] = 'Room Size';
 $string['root'] = 'Vitero Root';
 $string['root_desc'] = 'Root path of Vitero in the host (optional)';
+$string['specifycoursemodule'] = 'You must specify a course_module ID or an instance ID.';
 $string['startbuffer'] = 'Start Buffer (minutes)';
 $string['starttime'] = 'Start Time';
 $string['syncavatars'] = 'Synchronise Avatars';

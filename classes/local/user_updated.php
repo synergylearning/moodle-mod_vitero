@@ -31,8 +31,16 @@ namespace mod_vitero\local;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Class user_updated event observer.
+ */
 class user_updated
 {
+    /**
+     * observe_user_updated
+     * @param  \core\event\user_updated $event [description]
+     * @return void
+     */
     public static function observe_user_updated(\core\event\user_updated $event) {
         global $CFG, $DB;
 

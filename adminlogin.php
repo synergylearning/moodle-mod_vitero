@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Admin login page.
+ *
  * @package    mod_vitero
  * @copyright  2016 Synergy Learning
  * @author     Yair Spielmann <yair.spielmann@synergy-learning.com>
