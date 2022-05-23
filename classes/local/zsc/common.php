@@ -22,8 +22,6 @@
 
 namespace mod_vitero\local\zsc;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @category   Zend
  * @package    Zend_Soap

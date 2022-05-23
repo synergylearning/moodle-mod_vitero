@@ -25,8 +25,6 @@
 
 namespace mod_vitero\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_vitero course module viewed event class.
  *

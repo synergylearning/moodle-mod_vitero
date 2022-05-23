@@ -25,8 +25,6 @@
 
 namespace mod_vitero\local;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * A single (static) SOAP client.
  *

@@ -28,8 +28,6 @@
 
 use mod_vitero\local\singlesoapclient;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Gets the Vitero id for the server time zone, or closest to it.
  * @return string

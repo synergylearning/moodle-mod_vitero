@@ -23,7 +23,6 @@
  */
 
 namespace mod_vitero\event;
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * The mod_vitero instance list viewed event class.

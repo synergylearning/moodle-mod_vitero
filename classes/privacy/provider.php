@@ -31,8 +31,6 @@ use \core_privacy\local\request\approved_userlist;
 use \core_privacy\local\request\writer;
 use \core_privacy\local\metadata\collection;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Implementation of the privacy subsystem plugin provider for the Vitero activity module.
  *

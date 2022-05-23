@@ -29,8 +29,6 @@
 
 namespace mod_vitero\local;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * User deleted event observer.
  */

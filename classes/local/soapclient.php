@@ -31,8 +31,6 @@
 
 namespace mod_vitero\local;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * SOAP client suited for the Vitero server.
  * @package    mod_vitero

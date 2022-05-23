@@ -23,7 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+global $CFG;
 require_once($CFG->dirroot . '/mod/vitero/backup/moodle2/backup_vitero_stepslib.php'); // Because it exists (must).
 
 /**
