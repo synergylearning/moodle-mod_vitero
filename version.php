@@ -29,9 +29,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021081000;      // The current module version (Date: YYYYMMDDXX).
+$plugin->version   = 2022051300;      // The current module version (Date: YYYYMMDDXX).
 $plugin->requires  = 2018120300;      // Requires this Moodle version.
-$plugin->cron      = 0;               // Period for cron to check this module (secs).
 $plugin->component = 'mod_vitero';    // To check on upgrade, that module sits in correct place.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '2.1 (Build: 2021081000)';

@@ -64,6 +64,14 @@ define('VITERO_ROLE_AUDIENCE', 3);
  * @return mixed true if the feature is supported, null if unknown
  */
 function vitero_supports($feature) {
+
+    if (defined('FEATURE_MOD_PURPOSE')) {
+        // Only defined in M4.0+.
+        if ($feature === FEATURE_MOD_PURPOSE) {
+            return MOD_PURPOSE_COMMUNICATION;
+        }
+    }
+
     switch ($feature) {
         case FEATURE_MOD_INTRO:
             return true;
@@ -333,17 +341,6 @@ function vitero_get_recent_mod_activity(&$activities, &$index, $timestart, $cour
  */
 function vitero_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
 
-}
-
-/**
- * Function to be run periodically according to the moodle cron
- * This function searches for things that need to be done, such
- * as sending out mail, toggling flags etc ...
- *
- * @return bool
- * */
-function vitero_cron() {
-    return true;
 }
 
 /**
