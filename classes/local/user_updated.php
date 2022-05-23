@@ -32,8 +32,7 @@ namespace mod_vitero\local;
 /**
  * Class user_updated event observer.
  */
-class user_updated
-{
+class user_updated {
     /**
      * observe_user_updated
      * @param  \core\event\user_updated $event [description]
