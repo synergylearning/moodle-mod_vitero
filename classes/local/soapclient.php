@@ -91,7 +91,7 @@ class soapclient {
 <wsse:UsernameToken>
     <wsse:Username>' . $username . '</wsse:Username>
     <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-' .
-                'wss-username-token-profile-1.0#PasswordText">' . $password . '</wsse:Password>
+                'wss-username-token-profile-1.0#PasswordText"><![CDATA['. $password . ']]></wsse:Password>
     <wsse:Nonce>' . base64_encode(pack('H*', $nonce)) . '</wsse:Nonce>
     <wsu:Created xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-' .
                 '200401-wss-wssecurity-utility-1.0.xsd">' . $timestamp . '</wsu:Created>
@@ -119,7 +119,8 @@ class soapclient {
      */
     public function call($wsdlname, $method, $params = array()) {
         $this->lastfault = null;
-        $wwssheader = $this->wssecurity_header($this->username, $this->password);
+        $cdatasafepassword = str_replace(']]>', ']]]]><![CDATA[>', $this->password);
+        $wwssheader = $this->wssecurity_header($this->username, $cdatasafepassword);
         $this->client->addSoapInputHeader($wwssheader);
         $wsdl = $this->baseurl . '/services/' . $wsdlname . '.wsdl';
         $this->client->setWsdl($wsdl);

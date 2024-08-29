@@ -59,14 +59,32 @@ class common extends \SoapClient
      * @param string $action
      * @param int    $version
      * @param int    $one_way
-     * @return mixed
+     * @return string|null
      */
-    public function __doRequest($request, $location, $action, $version, $one_way = null)
+    public function __doRequest($request, $location, $action, $version, $one_way = null): ?string
     {
         if ($one_way === null) {
             return call_user_func($this->_doRequestCallback, $this, $request, $location, $action, $version);
         }
         return call_user_func($this->_doRequestCallback, $this, $request, $location, $action, $version, $one_way);
+    }
+
+    /**
+     * Callback method to perform SOAP Request over HTTP.
+     *
+     * @param string $request
+     * @param string $location
+     * @param string $action
+     * @param int $version
+     * @param int $one_way
+     * @return string|null
+     */
+    public function SoapClient__doRequest($request, $location, $action, $version, $one_way = null): ?string
+    {
+        if ($one_way === null) {
+            return parent::__doRequest($request, $location, $action, $version);
+        }
+        return parent::__doRequest($request, $location, $action, $version, $one_way);
     }
 
 }
