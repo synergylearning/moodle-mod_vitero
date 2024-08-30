@@ -47,38 +47,38 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
+$capabilities = [
 
-    'mod/vitero:addinstance' => array(
+    'mod/vitero:addinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
+        'archetypes' => [
             'coursecreator' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ),
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
-    ),
+        ],
+        'clonepermissionsfrom' => 'moodle/course:manageactivities',
+    ],
 
-    'mod/vitero:participant' => array(
+    'mod/vitero:participant' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
+        'legacy' => [
             'guest' => CAP_PREVENT,
             'manager' => CAP_ALLOW,
             'student' => CAP_ALLOW,
-        )
-    ),
+        ],
+    ],
 
-    'mod/vitero:teamleader' => array(
+    'mod/vitero:teamleader' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => array(
+        'legacy' => [
             'guest' => CAP_PREVENT,
             'manager' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
-        )
-    ),
-);
+        ],
+    ],
+];
 

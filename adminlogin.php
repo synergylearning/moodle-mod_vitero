@@ -40,7 +40,7 @@ $PAGE->set_url($CFG->wwwroot.'/mod/vitero/adminlogin.php');
 
 // Load module.
 $cm = get_coursemodule_from_id('vitero', $cmid, 0, false, MUST_EXIST);
-$vitero = $DB->get_record('vitero', array('id' => $cm->instance), '*', MUST_EXIST);
+$vitero = $DB->get_record('vitero', ['id' => $cm->instance], '*', MUST_EXIST);
 
 // Capability check.
 require_login($cm->course, false, $cm);

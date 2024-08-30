@@ -33,11 +33,11 @@ $n  = optional_param('n', 0, PARAM_INT);  // Vitero instance ID - it should be n
 
 if ($id) {
     $cm      = get_coursemodule_from_id('vitero', $id, 0, false, MUST_EXIST);
-    $course  = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $vitero  = $DB->get_record('vitero', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course  = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $vitero  = $DB->get_record('vitero', ['id' => $cm->instance], '*', MUST_EXIST);
 } else if ($n) {
-    $vitero  = $DB->get_record('vitero', array('id' => $n), '*', MUST_EXIST);
-    $course  = $DB->get_record('course', array('id' => $vitero->course), '*', MUST_EXIST);
+    $vitero  = $DB->get_record('vitero', ['id' => $n], '*', MUST_EXIST);
+    $course  = $DB->get_record('course', ['id' => $vitero->course], '*', MUST_EXIST);
     $cm      = get_coursemodule_from_instance('vitero', $vitero->id, $course->id, false, MUST_EXIST);
 } else {
     throw new \moodle_exception('specifycoursemodule', 'vitero');
@@ -47,7 +47,7 @@ $context = context_module::instance($cm->id);
 
 // Print the page header.
 $PAGE->set_context($context);
-$PAGE->set_url('/mod/vitero/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/vitero/view.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($vitero->name));
 $PAGE->set_heading(format_string($course->fullname));
 
@@ -59,11 +59,11 @@ if (has_capability('mod/vitero:teamleader', $context)) {
     $roleassign = VITERO_ROLE_TEAMLEADER;
 }
 
-$params = array(
+$params = [
     'objectid' => $vitero->id,
     'context' => $context,
     'courseid' => $course->id,
-);
+];
 $event = \mod_vitero\event\course_module_viewed::create($params);
 $event->trigger();
 
@@ -96,8 +96,8 @@ if (has_capability('mod/vitero:participant', $context)
             throw new \moodle_exception('cannotobtainsessioncode', 'vitero');
         }
         $baseurl = vitero_get_baseurl();
-        $fullurl = new moodle_url($baseurl.'/start.htm', array('sessionCode' => $sessioncode));
-        $linkbox = html_writer::link($fullurl, get_string('clickhereformeeting', 'vitero'), array('target' => '_blank'));
+        $fullurl = new moodle_url($baseurl.'/start.htm', ['sessionCode' => $sessioncode]);
+        $linkbox = html_writer::link($fullurl, get_string('clickhereformeeting', 'vitero'), ['target' => '_blank']);
     }
     echo $OUTPUT->box($linkbox, 'generalbox mod_introbox');
 }

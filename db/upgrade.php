@@ -69,11 +69,11 @@ function xmldb_vitero_upgrade($oldversion) {
         $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
 
         // Adding keys to table vitero_remusers.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
 
         // Adding indexes to table vitero_remusers.
-        $table->add_index('userid', XMLDB_INDEX_UNIQUE, array('userid'));
-        $table->add_index('viteroid', XMLDB_INDEX_UNIQUE, array('viteroid'));
+        $table->add_index('userid', XMLDB_INDEX_UNIQUE, ['userid']);
+        $table->add_index('viteroid', XMLDB_INDEX_UNIQUE, ['viteroid']);
 
         // Conditionally launch create table for vitero_remusers.
         if (!$dbman->table_exists($table)) {

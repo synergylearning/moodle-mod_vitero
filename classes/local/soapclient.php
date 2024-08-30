@@ -68,10 +68,10 @@ class soapclient {
         $this->username = $username;
         $this->password = $password;
         $this->debug = $debug;
-        $options = array(
+        $options = [
             'soap_version' => SOAP_1_1,
             'exceptions' => true,
-        );
+        ];
         $this->client = new zsc\client(null, $options);
     }
 
@@ -117,7 +117,7 @@ class soapclient {
      * @param string $method
      * @param array $params
      */
-    public function call($wsdlname, $method, $params = array()) {
+    public function call($wsdlname, $method, $params = []) {
         $this->lastfault = null;
         $cdatasafepassword = str_replace(']]>', ']]]]><![CDATA[>', $this->password);
         $wwssheader = $this->wssecurity_header($this->username, $cdatasafepassword);

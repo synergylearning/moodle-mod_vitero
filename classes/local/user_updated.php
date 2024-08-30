@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * User details updater class for Vitero.
  *
@@ -43,13 +42,13 @@ class user_updated {
 
         $data = $event->get_data();
         $user = $event->get_record_snapshot('user', $data['objectid']);
-        if (!$existing = $DB->get_record('vitero_remusers', array('userid' => $user->id))) {
+        if (!$existing = $DB->get_record('vitero_remusers', ['userid' => $user->id])) {
             // Not a tracked user, nothing to do.
             return;
         }
 
         // Check if anything has changed.
-        $checkfields = array('email', 'firstname', 'lastname');
+        $checkfields = ['email', 'firstname', 'lastname'];
         $changed = false;
         foreach ($checkfields as $fieldname) {
             if ($existing->{'last'.$fieldname} != $user->{$fieldname}) {

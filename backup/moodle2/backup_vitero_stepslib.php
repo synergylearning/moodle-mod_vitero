@@ -33,12 +33,12 @@ class backup_vitero_activity_structure_step extends backup_activity_structure_st
      */
     protected function define_structure() {
         // Define each element separated.
-        $vitero = new backup_nested_element('vitero', array('id'), array(
+        $vitero = new backup_nested_element('vitero', ['id'], [
             'name', 'intro', 'introformat',  'timemodified', 'meetingid', 'starttime', 'endtime', 'startbuffer',
-             'endbuffer', 'teamid', 'roomsize', 'teamname'));
+             'endbuffer', 'teamid', 'roomsize', 'teamname']);
 
         // Define sources.
-        $vitero->set_source_table('vitero', array('id' => backup::VAR_ACTIVITYID));
+        $vitero->set_source_table('vitero', ['id' => backup::VAR_ACTIVITYID]);
 
         // Define file annotations.
         $vitero->annotate_files('mod_vitero', 'intro', null);

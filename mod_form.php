@@ -48,7 +48,7 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('viteroname', 'vitero'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('viteroname', 'vitero'), ['size' => '64']);
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -67,14 +67,14 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform->addElement('header', 'appointmentfields', get_string('appointmentfields', 'vitero'));
 
         $mform->addElement('date_time_selector', 'starttime', get_string('starttime', 'vitero'),
-                           array('step' => 15, 'optional' => 0));
+                           ['step' => 15, 'optional' => 0]);
         $mform->setDefault('starttime', time() + 3600);
-        $mform->addElement('date_time_selector', 'endtime', get_string('endtime', 'vitero'), array('step' => 15, 'optional' => 0));
+        $mform->addElement('date_time_selector', 'endtime', get_string('endtime', 'vitero'), ['step' => 15, 'optional' => 0]);
         $mform->setDefault('endtime', time() + 7200);
-        $mform->addElement('text', 'startbuffer', get_string('startbuffer', 'vitero'), array('size' => '2'));
+        $mform->addElement('text', 'startbuffer', get_string('startbuffer', 'vitero'), ['size' => '2']);
         $mform->setDefault('startbuffer', 15);
         $mform->setType('startbuffer', PARAM_INT);
-        $mform->addElement('text', 'endbuffer', get_string('endbuffer', 'vitero'), array('size' => '2'));
+        $mform->addElement('text', 'endbuffer', get_string('endbuffer', 'vitero'), ['size' => '2']);
         $mform->setDefault('endbuffer', 15);
         $mform->setType('endbuffer', PARAM_INT);
         $mform->addElement('select', 'roomsize', get_string('roomsize', 'vitero'));
@@ -105,11 +105,11 @@ class mod_vitero_mod_form extends moodleform_mod {
         $mform = $this->_form;
         // Load or freeze room size.
         if ($default->instance) {
-            $roomsizes = array();
+            $roomsizes = [];
             $roomsizes[$default->roomsize] = $default->roomsize;
             $roomsize = &$mform->getElement('roomsize');
             $roomsize->loadArray($roomsizes);
-            $mform->freeze(array('roomsize'));
+            $mform->freeze(['roomsize']);
         } else {
             $roomsizes = vitero_get_available_roomsizes();
             $roomsize = &$mform->getElement('roomsize');

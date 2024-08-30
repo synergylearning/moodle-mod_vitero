@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Event observers for Vitero.
  *
@@ -29,13 +28,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$observers = array(
-    array(
+$observers = [
+    [
         'eventname' => '\core\event\user_updated',
         'callback' => 'mod_vitero\local\user_updated::observe_user_updated',
-    ),
-    array(
+    ],
+    [
         'eventname' => '\core\event\user_deleted',
         'callback' => 'mod_vitero\local\user_deleted::observe_user_deleted',
-    ),
-);
+    ],
+];

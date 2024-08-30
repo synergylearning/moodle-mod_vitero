@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
 
 global $DB;
 
-$logs = array(
-    array('module' => 'vitero', 'action' => 'add', 'mtable' => 'vitero', 'field' => 'name'),
-    array('module' => 'vitero', 'action' => 'update', 'mtable' => 'vitero', 'field' => 'name'),
-    array('module' => 'vitero', 'action' => 'view', 'mtable' => 'vitero', 'field' => 'name'),
-    array('module' => 'vitero', 'action' => 'view all', 'mtable' => 'vitero', 'field' => 'name')
-);
+$logs = [
+    ['module' => 'vitero', 'action' => 'add', 'mtable' => 'vitero', 'field' => 'name'],
+    ['module' => 'vitero', 'action' => 'update', 'mtable' => 'vitero', 'field' => 'name'],
+    ['module' => 'vitero', 'action' => 'view', 'mtable' => 'vitero', 'field' => 'name'],
+    ['module' => 'vitero', 'action' => 'view all', 'mtable' => 'vitero', 'field' => 'name'],
+];

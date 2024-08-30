@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * User details updater class for Vitero.
  *
@@ -46,6 +45,6 @@ class user_deleted {
         $user = $event->get_record_snapshot('user', $data['objectid']);
 
         // Remove all user tracking.
-        $DB->delete_records('vitero_remusers', array('userid' => $user->id));
+        $DB->delete_records('vitero_remusers', ['userid' => $user->id]);
     }
 }

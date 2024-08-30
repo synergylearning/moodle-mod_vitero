@@ -33,7 +33,7 @@ use mod_vitero\local\singlesoapclient;
  * @return string
  */
 function vitero_get_moodle_timezone() {
-    $timezones = array(
+    $timezones = [
         'Pacific/Apia' => -39600,
         'Pacific/Fakaofo' => -36000,
         'America/Adak' => -36000,
@@ -124,7 +124,7 @@ function vitero_get_moodle_timezone() {
         'Pacific/Chatham' => 45900,
         'Pacific/Enderbury' => 46800,
         'Pacific/Kiritimati' => 50400,
-    );
+    ];
 
     $offset = gmmktime(0, 0, 0, 1, 1, 2000) - mktime(0, 0, 0, 1, 1, 2000);
     foreach ($timezones as $timezonename => $timezoneoffset) {
@@ -182,8 +182,8 @@ function vitero_time_vitero_to_unix($date) {
  */
 function vitero_errorstring($errorid) {
     $errorstring = get_string('errorcode', 'vitero') . ': ' . $errorid;
-    $knownerrors = array(2, 3, 4, 51, 52, 53, 54, 101, 102, 103, 151, 152, 153, 302, 303, 304, 305, 306, 451, 452, 501,
-                          502, 505, 506, 508, 601, 703, 1001);
+    $knownerrors = [2, 3, 4, 51, 52, 53, 54, 101, 102, 103, 151, 152, 153, 302, 303, 304, 305, 306, 451, 452, 501,
+                          502, 505, 506, 508, 601, 703, 1001];
     if (in_array($errorid, $knownerrors)) {
         $errorstring .= ': ' . get_string('errorcode' . $errorid, 'vitero');
     }
@@ -250,18 +250,18 @@ function vitero_create_user($user) {
 
     $siteshortname = preg_replace('/[^a-zA-Z]/', '', get_site()->shortname);
 
-    $params = array(
-        'createUserRequest' => array(
-            'user' => array(
+    $params = [
+        'createUserRequest' => [
+            'user' => [
                 'username' => $siteshortname . '_' . $user->username,
                 'surname' => $user->lastname,
                 'firstname' => $user->firstname,
                 'email' => $user->email,
                 'password' => generate_password(),
                 'customeridlist' => $customerid,
-            )
-        )
-    );
+            ],
+        ],
+    ];
     $wsdl = 'user';
     $method = 'createUser';
     $result = $client->call($wsdl, $method, $params);
@@ -296,16 +296,16 @@ function vitero_create_user($user) {
 function vitero_update_remote_details($viteroid, $user) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'updateUserRequest' => array(
-            'user' => array(
+    $params = [
+        'updateUserRequest' => [
+            'user' => [
                 'id' => $viteroid,
                 'email' => $user->email,
                 'firstname' => $user->firstname,
                 'surname' => $user->lastname,
-            )
-        )
-    );
+            ],
+        ],
+    ];
     $wsdl = 'user';
     $method = 'updateUser';
     $client->call($wsdl, $method, $params);
@@ -347,14 +347,14 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
         return false;
     }
     $image = $file->get_content();
-    $params = array(
-        'storeAvatarUsingBase64StringRequest' => array(
+    $params = [
+        'storeAvatarUsingBase64StringRequest' => [
             'userid' => $viterouserid,
             'type' => 0,
             'filename' => 'avatar_'.$viterouserid.'.png',
             'file' => base64_encode($image),
-        )
-    );
+        ],
+    ];
     $wsdl = 'user';
     $method = 'storeAvatarUsingBase64String';
     $client->call($wsdl, $method, $params);
@@ -375,11 +375,11 @@ function vitero_get_all_users() {
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
-    $params = array(
-        'getUserListByCustomerRequest' => array(
+    $params = [
+        'getUserListByCustomerRequest' => [
             'customerid' => $customerid,
-        )
-    );
+        ],
+    ];
     $wsdl = 'user';
     $method = 'getUserListByCustomer';
     $result = $client->call($wsdl, $method, $params);
@@ -394,7 +394,7 @@ function vitero_get_all_users() {
 
     // In case only one user exists.
     if (!is_array($result->user)) {
-        return array($result->user);
+        return [$result->user];
     }
 
     return $result->user;
@@ -424,7 +424,7 @@ function vitero_get_remuserid_by_email($email) {
  */
 function vitero_get_remuserid_by_id($userid) {
     global $DB;
-    return $DB->get_field('vitero_remusers', 'viteroid', array('userid' => $userid));
+    return $DB->get_field('vitero_remusers', 'viteroid', ['userid' => $userid]);
 }
 
 /**
@@ -436,14 +436,14 @@ function vitero_get_remuserid_by_id($userid) {
 function vitero_save_remuser($user, $viteroid) {
     global $DB;
 
-    $DB->delete_records('vitero_remusers', array('userid' => $user->id)); // Just in case.
-    $toinsert = (object)array(
+    $DB->delete_records('vitero_remusers', ['userid' => $user->id]); // Just in case.
+    $toinsert = (object)[
         'userid' => $user->id,
         'viteroid' => $viteroid,
         'lastemail' => $user->email,
         'timecreated' => time(),
         'timeupdated' => time(),
-    );
+    ];
     return $DB->insert_record('vitero_remusers', $toinsert);
 }
 
@@ -455,7 +455,7 @@ function vitero_save_remuser($user, $viteroid) {
 function vitero_update_remuser($user) {
     global $DB;
 
-    if (!$rec = $DB->get_record('vitero_remusers', array('userid' => $user->id))) {
+    if (!$rec = $DB->get_record('vitero_remusers', ['userid' => $user->id])) {
         return false;
     }
     $rec->lastemail = $user->email;
@@ -493,12 +493,12 @@ function vitero_get_userid_by_username($username) {
 function vitero_add_user_to_team($viterouserid, $teamid) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'addUserToGroupRequest' => array(
+    $params = [
+        'addUserToGroupRequest' => [
             'groupid' => $teamid,
             'userid' => $viterouserid,
-        )
-    );
+        ],
+    ];
     $wsdl = 'group';
     $method = 'addUserToGroup';
     $client->call($wsdl, $method, $params);
@@ -519,13 +519,13 @@ function vitero_add_user_to_team($viterouserid, $teamid) {
 function vitero_assign_team_role($viterouserid, $teamid, $roleid) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'changeGroupRoleRequest' => array(
+    $params = [
+        'changeGroupRoleRequest' => [
             'groupid' => $teamid,
             'userid' => $viterouserid,
-            'role' => $roleid
-        )
-    );
+            'role' => $roleid,
+        ],
+    ];
     $wsdl = 'group';
     $method = 'changeGroupRole';
     $client->call($wsdl, $method, $params);
@@ -545,22 +545,22 @@ function vitero_get_available_roomsizes() {
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
-    $params = array(
-        'getModulesForCustomerRequest' => array(
+    $params = [
+        'getModulesForCustomerRequest' => [
             'customerid' => $customerid,
-        )
-    );
+        ],
+    ];
     $wsdl = 'licence';
     $method = 'getModulesForCustomer';
     $result = $client->call($wsdl, $method, $params);
     if ($errorcode = $client->getlasterrorcode()) {
         vitero_errorstring($errorcode);
-        return array();
+        return [];
     }
     if (!is_object($result) || !isset($result->modules)) {
-        return array();
+        return [];
     }
-    $rooms = array();
+    $rooms = [];
     foreach ($result->modules as $module) {
         foreach ($module as $room) {
             if (isset($room->roomsize)) {
@@ -581,14 +581,14 @@ function vitero_get_available_roomsizes() {
 function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'createPersonalBookingSessionCodeRequest' => array(
-            'sessioncode' => array(
+    $params = [
+        'createPersonalBookingSessionCodeRequest' => [
+            'sessioncode' => [
                 'userid' => $viterouserid,
                 'bookingid' => $meetingid,
-            )
-        )
-    );
+            ],
+        ],
+    ];
     $wsdl = 'sessioncode';
     $method = 'createPersonalBookingSessionCode';
     $result = $client->call($wsdl, $method, $params);
@@ -610,13 +610,13 @@ function vitero_create_meeting_sessioncode($viterouserid, $meetingid) {
 function vitero_create_vms_sessioncode($viterouserid) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'createVmsSessionCode' => array(
-            'sessioncode' => array(
+    $params = [
+        'createVmsSessionCode' => [
+            'sessioncode' => [
                 'userid' => $viterouserid,
-            ),
-        )
-    );
+            ],
+        ],
+    ];
     $wsdl = 'sessioncode';
     $method = 'createVmsSessionCode';
     $result = $client->call($wsdl, $method, $params);
@@ -640,14 +640,14 @@ function vitero_create_team($teamname) {
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
-    $params = array(
-        'createGroupRequest' => array(
-            'group' => array(
+    $params = [
+        'createGroupRequest' => [
+            'group' => [
                 'groupname' => $teamname,
                 'customerid' => $customerid,
-            )
-        )
-    );
+            ],
+        ],
+    ];
     $wsdl = 'group';
     $method = 'createGroup';
     $result = $client->call($wsdl, $method, $params);
@@ -671,14 +671,14 @@ function vitero_create_team($teamname) {
 function vitero_update_team($teamid, $teamname) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'updateGroupRequest' => array(
-            'group' => array(
+    $params = [
+        'updateGroupRequest' => [
+            'group' => [
                 'id' => $teamid,
                 'name' => $teamname,
-            )
-        )
-    );
+            ],
+        ],
+    ];
     $wsdl = 'group';
     $method = 'updateGroup';
     $client->call($wsdl, $method, $params);
@@ -697,11 +697,11 @@ function vitero_update_team($teamid, $teamname) {
 function vitero_delete_team($teamid) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'deleteGroupRequest' => array(
+    $params = [
+        'deleteGroupRequest' => [
             'groupid' => $teamid,
-        )
-    );
+        ],
+    ];
     $wsdl = 'group';
     $method = 'deleteGroup';
     $client->call($wsdl, $method, $params);
@@ -723,19 +723,19 @@ function vitero_create_meeting($vitero) {
     // Get time zone.
     $timezone = vitero_get_moodle_timezone();
 
-    $params = array(
-        'createBookingRequest' => array(
-            'booking' => array(
+    $params = [
+        'createBookingRequest' => [
+            'booking' => [
                 'start' => vitero_time_unix_to_vitero($vitero->starttime),
                 'end' => vitero_time_unix_to_vitero($vitero->endtime),
                 'startbuffer' => $vitero->startbuffer,
                 'endbuffer' => $vitero->endbuffer,
                 'groupid' => $vitero->teamid,
                 'roomsize' => $vitero->roomsize,
-                'timezone' => $timezone
-            )
-        )
-    );
+                'timezone' => $timezone,
+            ],
+        ],
+    ];
     $wsdl = 'booking';
     $method = 'createBooking';
     $result = $client->call($wsdl, $method, $params);
@@ -766,16 +766,16 @@ function vitero_update_meeting($vitero) {
     // Get time zone.
     $timezone = vitero_get_moodle_timezone();
 
-    $params = array(
-        'updateBookingRequest' => array(
+    $params = [
+        'updateBookingRequest' => [
             'bookingid' => $vitero->meetingid,
             'start' => vitero_time_unix_to_vitero($vitero->starttime),
             'end' => vitero_time_unix_to_vitero($vitero->endtime),
             'startbuffer' => $vitero->startbuffer,
             'endbuffer' => $vitero->endbuffer,
             'timezone' => $timezone,
-        )
-    );
+        ],
+    ];
     $wsdl = 'booking';
     $method = 'updateBooking';
     $client->call($wsdl, $method, $params);
@@ -794,11 +794,11 @@ function vitero_update_meeting($vitero) {
 function vitero_delete_meeting($vitero) {
     $client = singlesoapclient::getclient();
 
-    $params = array(
-        'deleteBookingRequest' => array(
+    $params = [
+        'deleteBookingRequest' => [
             'bookingid' => $vitero->meetingid,
-        )
-    );
+        ],
+    ];
     $wsdl = 'booking';
     $method = 'deleteBooking';
     $client->call($wsdl, $method, $params);
@@ -818,11 +818,11 @@ function vitero_connection_test() {
     $config = get_config('vitero');
     $customerid = trim($config->customerid);
 
-    $params = array(
-        'getUserListByCustomerRequest' => array(
+    $params = [
+        'getUserListByCustomerRequest' => [
             'customerid' => $customerid,
-        )
-    );
+        ],
+    ];
     $wsdl = 'user';
     $method = 'getUserListByCustomer';
     $result = $client->call($wsdl, $method, $params);

@@ -34,7 +34,7 @@ class restore_vitero_activity_structure_step extends restore_activity_structure_
      */
     protected function define_structure() {
 
-        $paths = array();
+        $paths = [];
         $paths[] = new restore_path_element('vitero', '/activity/vitero');
 
         // Return the paths wrapped into standard activity structure.

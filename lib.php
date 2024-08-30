@@ -164,7 +164,7 @@ function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = n
     $vitero->id = $vitero->instance;
 
     // Get old details.
-    if (!$old = $DB->get_record('vitero', array('id' => $vitero->id))) {
+    if (!$old = $DB->get_record('vitero', ['id' => $vitero->id])) {
         return false;
     }
     $vitero->meetingid = $old->meetingid;
@@ -177,12 +177,12 @@ function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = n
     }
 
     // Update calendar.
-    $param = array(
+    $param = [
         'courseid' => $vitero->course,
         'instance' => $vitero->id,
         'groupid' => 0,
-        'modulename' => 'vitero'
-    );
+        'modulename' => 'vitero',
+    ];
     $eventid = $DB->get_field('event', 'id', $param);
     if (!empty($eventid)) {
         $event = new stdClass();
@@ -223,13 +223,13 @@ function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = n
 function vitero_delete_instance($id) {
     global $DB;
 
-    if (!$vitero = $DB->get_record('vitero', array('id' => $id))) {
+    if (!$vitero = $DB->get_record('vitero', ['id' => $id])) {
         return false;
     }
 
     // Update calendar event.
-    $param = array('courseid' => $vitero->course, 'instance' => $vitero->id,
-        'groupid' => 0, 'modulename' => 'vitero');
+    $param = ['courseid' => $vitero->course, 'instance' => $vitero->id,
+        'groupid' => 0, 'modulename' => 'vitero'];
     $eventid = $DB->get_field('event', 'id', $param);
 
     if (!empty($eventid)) {
@@ -237,10 +237,10 @@ function vitero_delete_instance($id) {
         $event->delete();
     }
 
-    $DB->delete_records('vitero', array('id' => $vitero->id));
+    $DB->delete_records('vitero', ['id' => $vitero->id]);
 
     // Delete meeting, if no other activity links to this.
-    $allmeetings = $DB->count_records('vitero', array('meetingid' => $vitero->meetingid));
+    $allmeetings = $DB->count_records('vitero', ['meetingid' => $vitero->meetingid]);
 
     if (!$allmeetings) {
         if (!vitero_delete_meeting($vitero)) {
@@ -365,7 +365,7 @@ function vitero_get_participants($viteroid) {
  * @return array
  */
 function vitero_get_extra_capabilities() {
-    return array();
+    return [];
 }
 
 // Gradebook API.
@@ -422,7 +422,7 @@ function vitero_update_grades(stdClass $vitero, $userid = 0) {
     global $CFG;
     require_once($CFG->libdir . '/gradelib.php');
 
-    $grades = array(); // Populate array of grade objects indexed by userid.
+    $grades = []; // Populate array of grade objects indexed by userid.
 
     grade_update('mod/vitero', $vitero->course, 'mod', 'vitero', $vitero->id, 0, $grades);
 }
@@ -441,7 +441,7 @@ function vitero_update_grades(stdClass $vitero, $userid = 0) {
  * @return array of [(string)filearea] => (string)description
  */
 function vitero_get_file_areas($course, $cm, $context) {
-    return array();
+    return [];
 }
 
 /**

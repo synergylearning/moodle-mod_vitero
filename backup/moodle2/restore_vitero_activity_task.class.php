@@ -52,9 +52,9 @@ class restore_vitero_activity_task extends restore_activity_task {
      * @return restore_decode_content
      */
     public static function define_decode_contents() {
-        $contents = array();
+        $contents = [];
 
-        $contents[] = new restore_decode_content('vitero', array('intro'), 'vitero');
+        $contents[] = new restore_decode_content('vitero', ['intro'], 'vitero');
 
         return $contents;
     }
@@ -65,7 +65,7 @@ class restore_vitero_activity_task extends restore_activity_task {
      * @return array
      */
     public static function define_decode_rules() {
-        $rules = array();
+        $rules = [];
 
         $rules[] = new restore_decode_rule('VITEROVIEWBYID', '/mod/vitero/view.php?id=$1', 'course_module');
         $rules[] = new restore_decode_rule('VITEROINDEX', '/mod/vitero/index.php?id=$1', 'course');
@@ -83,7 +83,7 @@ class restore_vitero_activity_task extends restore_activity_task {
      * @return array
      */
     public static function define_restore_log_rules() {
-        $rules = array();
+        $rules = [];
 
         $rules[] = new restore_log_rule('vitero', 'add', 'view.php?id={course_module}', '{vitero}');
         $rules[] = new restore_log_rule('vitero', 'edit', 'edit.php?id={course_module}', '{vitero}');
@@ -105,7 +105,7 @@ class restore_vitero_activity_task extends restore_activity_task {
      * @return array
      */
     public static function define_restore_log_rules_for_course() {
-        $rules = array();
+        $rules = [];
 
         $rules[] = new restore_log_rule('vitero', 'view all', 'index.php?id={course}', null);
 

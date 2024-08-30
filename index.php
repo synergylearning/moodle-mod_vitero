@@ -33,15 +33,15 @@ global $DB, $OUTPUT, $PAGE;
 
 $id = required_param('id', PARAM_INT); // Course ID.
 
-$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 
 $coursecontext = context_course::instance($course->id);
 
-$event = \mod_vitero\event\course_module_instance_list_viewed::create(array('context' => $coursecontext));
+$event = \mod_vitero\event\course_module_instance_list_viewed::create(['context' => $coursecontext]);
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$PAGE->set_url('/mod/vitero/index.php', array('id' => $id));
+$PAGE->set_url('/mod/vitero/index.php', ['id' => $id]);
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($coursecontext);
@@ -49,45 +49,45 @@ $PAGE->set_context($coursecontext);
 require_course_login($course);
 
 // Trigger instances list viewed event.
-$params = array(
-    'context' => context_course::instance($course->id)
-);
+$params = [
+    'context' => context_course::instance($course->id),
+];
 $event = \mod_vitero\event\course_module_instance_list_viewed::create($params);
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 echo $OUTPUT->header();
 
 if (!$viteros = get_all_instances_in_course('vitero', $course)) {
-    notice(get_string('noviteros', 'vitero'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    notice(get_string('noviteros', 'vitero'), new moodle_url('/course/view.php', ['id' => $course->id]));
 }
 
 if ($course->format == 'weeks') {
-    $table->head  = array(get_string('week'), get_string('name'));
-    $table->align = array('center', 'left');
+    $table->head  = [get_string('week'), get_string('name')];
+    $table->align = ['center', 'left'];
 } else if ($course->format == 'topics') {
-    $table->head  = array(get_string('topic'), get_string('name'));
-    $table->align = array('center', 'left', 'left', 'left');
+    $table->head  = [get_string('topic'), get_string('name')];
+    $table->align = ['center', 'left', 'left', 'left'];
 } else {
-    $table->head  = array(get_string('name'));
-    $table->align = array('left', 'left', 'left');
+    $table->head  = [get_string('name')];
+    $table->align = ['left', 'left', 'left'];
 }
 
 foreach ($viteros as $vitero) {
     if (!$vitero->visible) {
         $link = html_writer::link(
-            new moodle_url('/mod/vitero.php', array('id' => $vitero->coursemodule)),
+            new moodle_url('/mod/vitero.php', ['id' => $vitero->coursemodule]),
             format_string($vitero->name),
-            array('class' => 'dimmed'));
+            ['class' => 'dimmed']);
     } else {
         $link = html_writer::link(
-            new moodle_url('/mod/vitero.php', array('id' => $vitero->coursemodule)),
+            new moodle_url('/mod/vitero.php', ['id' => $vitero->coursemodule]),
             format_string($vitero->name));
     }
 
     if ($course->format == 'weeks' || $course->format == 'topics') {
-        $table->data[] = array($vitero->section, $link);
+        $table->data[] = [$vitero->section, $link];
     } else {
-        $table->data[] = array($link);
+        $table->data[] = [$link];
     }
 }
 
