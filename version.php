@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Defines the version of vitero
  *
@@ -34,4 +33,4 @@ $plugin->requires  = 2018120300;      // Requires this Moodle version.
 $plugin->component = 'mod_vitero';    // To check on upgrade, that module sits in correct place.
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '2.4 (Build: 2024082900)';
-$plugin->dependencies = array();
+$plugin->dependencies = [];
