@@ -51,7 +51,7 @@ class user_updated {
         $checkfields = ['email', 'firstname', 'lastname'];
         $changed = false;
         foreach ($checkfields as $fieldname) {
-            if ($existing->{'last'.$fieldname} != $user->{$fieldname}) {
+            if ($existing->{'last' . $fieldname} != $user->{$fieldname}) {
                 $changed = true;
                 break;
             }

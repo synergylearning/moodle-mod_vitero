@@ -91,7 +91,7 @@ class soapclient {
 <wsse:UsernameToken>
     <wsse:Username>' . $username . '</wsse:Username>
     <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-' .
-                'wss-username-token-profile-1.0#PasswordText"><![CDATA['. $password . ']]></wsse:Password>
+                'wss-username-token-profile-1.0#PasswordText"><![CDATA[' . $password . ']]></wsse:Password>
     <wsse:Nonce>' . base64_encode(pack('H*', $nonce)) . '</wsse:Nonce>
     <wsu:Created xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-' .
                 '200401-wss-wssecurity-utility-1.0.xsd">' . $timestamp . '</wsu:Created>
@@ -105,9 +105,13 @@ class soapclient {
          * xml.
          */
         $authvalues = new \SoapVar($auth, XSD_ANYXML);
-        $header = new \SoapHeader('http://docs.oasis-open.org/wss/2004/01/oasis-' .
-                        '200401-wss-wssecurity-secext-1.0.xsd', 'Security', $authvalues,
-                        true);
+        $header = new \SoapHeader(
+            'http://docs.oasis-open.org/wss/2004/01/oasis-' .
+                        '200401-wss-wssecurity-secext-1.0.xsd',
+            'Security',
+            $authvalues,
+            true
+        );
         return $header;
     }
 

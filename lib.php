@@ -102,7 +102,7 @@ function vitero_add_instance(stdClass $vitero, ?mod_vitero_mod_form $mform = nul
     $vitero->timecreated = time();
 
     // Append random number to the teamname.
-    $vitero->teamname .= '_MOODLE_'.random_string(10);
+    $vitero->teamname .= '_MOODLE_' . random_string(10);
 
     // Create team.
     if (!$vitero->teamid = vitero_create_team($vitero->teamname)) {
@@ -483,7 +483,7 @@ function vitero_extend_navigation(navigation_node $navref, stdclass $course, std
  * so it is safe to rely on the $PAGE.
  *
  * @param settings_navigation $settingsnav {@see settings_navigation}
- * @param navigation_node $viteronode {@see navigation_node}
+ * @param navigation_node|null $viteronode {@see navigation_node}
  */
 function vitero_extend_settings_navigation(settings_navigation $settingsnav, ?navigation_node $viteronode = null) {
 

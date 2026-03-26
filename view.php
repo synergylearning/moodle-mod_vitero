@@ -25,8 +25,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'../../../config.php');
-require_once(__DIR__.'/lib.php');
+require_once(__DIR__ . '../../../config.php');
+require_once(__DIR__ . '/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or.
 $n  = optional_param('n', 0, PARAM_INT);  // Vitero instance ID - it should be named as the first character of the module.
@@ -79,12 +79,14 @@ if ($vitero->intro) {
 }
 
 // Display times.
-$timesbox = get_string('starttime', 'vitero').': ' . userdate($vitero->starttime) . '<br />'
-    . get_string('endtime', 'vitero') . ': '.userdate($vitero->endtime);
+$timesbox = get_string('starttime', 'vitero') . ': ' . userdate($vitero->starttime) . '<br />'
+    . get_string('endtime', 'vitero') . ': ' . userdate($vitero->endtime);
 echo $OUTPUT->box($timesbox, 'generalbox mod_introbox');
 
-if (has_capability('mod/vitero:participant', $context)
-        || has_capability('mod/vitero:teamleader', $context)) {
+if (
+    has_capability('mod/vitero:participant', $context)
+        || has_capability('mod/vitero:teamleader', $context)
+) {
     $linkbox = '';
     if ($vitero->starttime - (int)$vitero->startbuffer * 60 > time()) {
         $linkbox = get_string('notstartedyet', 'vitero');
@@ -96,7 +98,7 @@ if (has_capability('mod/vitero:participant', $context)
             throw new \moodle_exception('cannotobtainsessioncode', 'vitero');
         }
         $baseurl = vitero_get_baseurl();
-        $fullurl = new moodle_url($baseurl.'/start.htm', ['sessionCode' => $sessioncode]);
+        $fullurl = new moodle_url($baseurl . '/start.htm', ['sessionCode' => $sessioncode]);
         $linkbox = html_writer::link($fullurl, get_string('clickhereformeeting', 'vitero'), ['target' => '_blank']);
     }
     echo $OUTPUT->box($linkbox, 'generalbox mod_introbox');

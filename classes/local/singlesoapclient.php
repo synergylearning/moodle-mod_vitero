@@ -33,7 +33,6 @@ namespace mod_vitero\local;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class singlesoapclient {
-
     /** @var soapclient the soap client container */
     private static $client;
 

@@ -42,7 +42,6 @@ function xmldb_vitero_upgrade($oldversion) {
     $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
 
     if ($oldversion < 2013021400) {
-
         // Define table vitero_attendees to be dropped.
         $table = new xmldb_table('vitero_attendees');
 
@@ -56,7 +55,6 @@ function xmldb_vitero_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016072800) {
-
         // Define table vitero_remusers to be created.
         $table = new xmldb_table('vitero_remusers');
 
@@ -85,7 +83,6 @@ function xmldb_vitero_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016081900) {
-
         // Define field lastfirstname to be added to vitero_remusers.
         $table = new xmldb_table('vitero_remusers');
 

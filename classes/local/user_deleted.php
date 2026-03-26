@@ -32,7 +32,6 @@ namespace mod_vitero\local;
  * User deleted event observer.
  */
 class user_deleted {
-
     /**
      * Delete vetero users on user delete.
      *

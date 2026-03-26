@@ -23,17 +23,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'../../../config.php');
+require_once(__DIR__ . '../../../config.php');
 
 global $PAGE, $USER, $CFG, $DB, $OUTPUT;
 
-require_once(__DIR__.'/locallib.php');
-require_once($CFG->libdir.'/accesslib.php');
+require_once(__DIR__ . '/locallib.php');
+require_once($CFG->libdir . '/accesslib.php');
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);
 $PAGE->set_title(get_string('connectiontest', 'vitero'));
-$PAGE->set_url($CFG->wwwroot.'/mod/vitero/conntest.php');
+$PAGE->set_url($CFG->wwwroot . '/mod/vitero/conntest.php');
 
 require_login(SITEID, false);
 if (!is_siteadmin()) {
@@ -45,7 +45,7 @@ echo $OUTPUT->box_start('center');
 if (vitero_connection_test()) {
     echo get_string('success');
 } else {
-    echo html_writer::empty_tag('br').get_string('conntest_failed', 'vitero');
+    echo html_writer::empty_tag('br') . get_string('conntest_failed', 'vitero');
 }
 
 echo '<input type="button" onclick="self.close();" value="' . get_string('closewindow') . '" />';
