@@ -35,7 +35,6 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  * Module instance settings form
  */
 class mod_vitero_mod_form extends moodleform_mod {
-
     /**
      * Defines forms elements.
      */
@@ -66,8 +65,12 @@ class mod_vitero_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'appointmentfields', get_string('appointmentfields', 'vitero'));
 
-        $mform->addElement('date_time_selector', 'starttime', get_string('starttime', 'vitero'),
-                           ['step' => 15, 'optional' => 0]);
+        $mform->addElement(
+            'date_time_selector',
+            'starttime',
+            get_string('starttime', 'vitero'),
+            ['step' => 15, 'optional' => 0]
+        );
         $mform->setDefault('starttime', time() + 3600);
         $mform->addElement('date_time_selector', 'endtime', get_string('endtime', 'vitero'), ['step' => 15, 'optional' => 0]);
         $mform->setDefault('endtime', time() + 7200);
@@ -85,7 +88,7 @@ class mod_vitero_mod_form extends moodleform_mod {
         // Direct login.
         $mform->addElement('header', 'adminloginarea', get_string('adminlogin', 'vitero'));
         $mform->addElement('button', 'adminlogin', get_string('adminlogin', 'vitero'));
-        $mform->addElement('static', 'nologinhint', '',  nl2br(s(get_string('nologinhint', 'vitero'))));
+        $mform->addElement('static', 'nologinhint', '', nl2br(s(get_string('nologinhint', 'vitero'))));
 
         // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();
@@ -158,5 +161,4 @@ class mod_vitero_mod_form extends moodleform_mod {
         }
         return $errors;
     }
-
 }

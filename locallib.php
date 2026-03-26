@@ -333,8 +333,8 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
     $filename = 'f1';
 
     // Below code should remain identical to filelib.php file_pluginfile() where $component === 'user'.
-    if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', $filename.'.png')) {
-        if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', $filename.'.jpg')) {
+    if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', $filename . '.png')) {
+        if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', $filename . '.jpg')) {
             if ($filename === 'f3') {
                 if (!$file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1.png')) {
                     $file = $fs->get_file($context->id, 'user', 'icon', 0, '/', 'f1.jpg');
@@ -351,7 +351,7 @@ function vitero_upload_avatar($moodleuserid, $viterouserid) {
         'storeAvatarUsingBase64StringRequest' => [
             'userid' => $viterouserid,
             'type' => 0,
-            'filename' => 'avatar_'.$viterouserid.'.png',
+            'filename' => 'avatar_' . $viterouserid . '.png',
             'file' => base64_encode($image),
         ],
     ];

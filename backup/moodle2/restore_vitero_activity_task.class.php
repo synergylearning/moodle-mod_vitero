@@ -30,7 +30,6 @@ require_once($CFG->dirroot . '/mod/vitero/backup/moodle2/restore_vitero_stepslib
  * Provides all the settings and steps to perform one complete restore of the activity.
  */
 class restore_vitero_activity_task extends restore_activity_task {
-
     /**
      * Define (add) particular settings this activity can have
      */
@@ -71,7 +70,6 @@ class restore_vitero_activity_task extends restore_activity_task {
         $rules[] = new restore_decode_rule('VITEROINDEX', '/mod/vitero/index.php?id=$1', 'course');
 
         return $rules;
-
     }
 
     /**

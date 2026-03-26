@@ -27,7 +27,6 @@
  * @return restore_path_element
  */
 class restore_vitero_activity_structure_step extends restore_activity_structure_step {
-
     /**
      * define_structure
      * @return object Paths wrapped into standard activity structure.

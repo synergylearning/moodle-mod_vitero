@@ -30,7 +30,6 @@ require_once($CFG->dirroot . '/mod/vitero/backup/moodle2/backup_vitero_stepslib.
  * Provides all the settings and steps to perform one complete backup of the activity.
  */
 class backup_vitero_activity_task extends backup_activity_task {
-
     /**
      * Define (add) particular settings this activity can have
      */
@@ -57,11 +56,11 @@ class backup_vitero_activity_task extends backup_activity_task {
         $base = preg_quote($CFG->wwwroot, '/');
 
         // Link to the list of vitero.
-        $search = '/('.$base."\/mod\/vitero\/index.php\?id\=)([0-9]+)/";
+        $search = '/(' . $base . "\/mod\/vitero\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@viteroINDEX*$2@$', $content);
 
         // Link to choice view by moduleid.
-        $search = '/('.$base."\/mod\/vitero\/view.php\?id\=)([0-9]+)/";
+        $search = '/(' . $base . "\/mod\/vitero\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@viteroVIEWBYID*$2@$', $content);
 
         return $content;

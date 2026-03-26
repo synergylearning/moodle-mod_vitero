@@ -292,7 +292,6 @@ function vitero_user_outline($course, $user, $mod, $vitero) {
  * @return void, is supposed to echp directly
  */
 function vitero_user_complete($course, $user, $mod, $vitero) {
-
 }
 
 /**
@@ -326,7 +325,6 @@ function vitero_print_recent_activity($course, $viewfullnames, $timestart) {
  * @return void adds items into $activities and increases $index
  */
 function vitero_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid = 0, $groupid = 0) {
-
 }
 
 /**
@@ -340,7 +338,6 @@ function vitero_get_recent_mod_activity(&$activities, &$index, $timestart, $cour
  * @return void
  */
 function vitero_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
-
 }
 
 /**
@@ -473,7 +470,6 @@ function vitero_pluginfile($course, $cm, $context, $filearea, array $args, $forc
  * @return void
  */
 function vitero_extend_navigation(navigation_node $navref, stdclass $course, stdclass $module, cm_info $cm) {
-
 }
 
 /**
@@ -486,5 +482,4 @@ function vitero_extend_navigation(navigation_node $navref, stdclass $course, std
  * @param navigation_node|null $viteronode {@see navigation_node}
  */
 function vitero_extend_settings_navigation(settings_navigation $settingsnav, ?navigation_node $viteronode = null) {
-
 }

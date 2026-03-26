@@ -26,7 +26,6 @@
  * Define the complete vitero structure for backup, with file and id annotations
  */
 class backup_vitero_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * define_structure
      * @return object Root element (vitero), wrapped into standard activity structure.
@@ -34,7 +33,7 @@ class backup_vitero_activity_structure_step extends backup_activity_structure_st
     protected function define_structure() {
         // Define each element separated.
         $vitero = new backup_nested_element('vitero', ['id'], [
-            'name', 'intro', 'introformat',  'timemodified', 'meetingid', 'starttime', 'endtime', 'startbuffer',
+            'name', 'intro', 'introformat', 'timemodified', 'meetingid', 'starttime', 'endtime', 'startbuffer',
              'endbuffer', 'teamid', 'roomsize', 'teamname']);
 
         // Define sources.
