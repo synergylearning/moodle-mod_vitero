@@ -23,20 +23,20 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'../../../config.php');
+require_once(__DIR__ . '../../../config.php');
 
 global $DB, $PAGE, $CFG, $OUTPUT;
 
-require_once(__DIR__.'/locallib.php');
-require_once(__DIR__.'/lib.php');
-require_once($CFG->libdir.'/accesslib.php');
+require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/lib.php');
+require_once($CFG->libdir . '/accesslib.php');
 
 
 $cmid = required_param('cm', PARAM_INT);
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('connectiontest', 'vitero'));
-$PAGE->set_url($CFG->wwwroot.'/mod/vitero/adminlogin.php');
+$PAGE->set_url($CFG->wwwroot . '/mod/vitero/adminlogin.php');
 
 // Load module.
 $cm = get_coursemodule_from_id('vitero', $cmid, 0, false, MUST_EXIST);
@@ -49,8 +49,8 @@ require_capability('mod/vitero:addinstance', $cmcontext);
 
 // Create user if not exists, assign to team as teamleader and get session code.
 if ($sessioncode = vitero_get_my_sessioncode($vitero, VITERO_ROLE_TEAMLEADER, 'vms')) {
-    $url = vitero_get_baseurl() . '/user/cms/groupfolder.htm?groupId=' . $vitero->teamid . '&code=' . $sessioncode
-        .'&fl=1&action=reload';
+    $url = vitero_get_baseurl() . '/admin/cms/groupfolder.htm?groupId=' . $vitero->teamid . '&code=' . $sessioncode
+        . '&fl=1&action=reload';
     redirect($url);
 }
 
