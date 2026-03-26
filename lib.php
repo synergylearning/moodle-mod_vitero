@@ -96,7 +96,7 @@ function vitero_supports($feature) {
  * @param  mod_vitero_mod_form|null $mform
  * @return int The id of the newly inserted vitero record
  */
-function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null) {
+function vitero_add_instance(stdClass $vitero, ?mod_vitero_mod_form $mform = null) {
     global $DB;
 
     $vitero->timecreated = time();
@@ -157,7 +157,7 @@ function vitero_add_instance(stdClass $vitero, mod_vitero_mod_form $mform = null
  * @param  mod_vitero_mod_form|null $mform
  * @return boolean Success/Fail
  */
-function vitero_update_instance(stdClass $vitero, mod_vitero_mod_form $mform = null) {
+function vitero_update_instance(stdClass $vitero, ?mod_vitero_mod_form $mform = null) {
     global $DB;
 
     $vitero->timemodified = time();
@@ -325,7 +325,7 @@ function vitero_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
  * @return void adds items into $activities and increases $index
  */
-function vitero_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function vitero_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid = 0, $groupid = 0) {
 
 }
 
@@ -485,6 +485,6 @@ function vitero_extend_navigation(navigation_node $navref, stdclass $course, std
  * @param settings_navigation $settingsnav {@see settings_navigation}
  * @param navigation_node $viteronode {@see navigation_node}
  */
-function vitero_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $viteronode=null) {
+function vitero_extend_settings_navigation(settings_navigation $settingsnav, ?navigation_node $viteronode = null) {
 
 }
